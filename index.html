@@ -12,6 +12,8 @@
         <span class="sep">•</span>
         <a href="/writing/">writing</a>
         <span class="sep">•</span>
+        <a href="/photography/">photography</a>
+        <span class="sep">•</span>
         <a href="/work/">work</a>
         <span class="sep">•</span>
         <a href="/contact/">contact</a>
@@ -30,18 +32,49 @@
             <a href="/essays/thinking-historically-01/">Thinking Historically 01.</a>
             <div class="description">Parallels between 1960s America and today.</div>
         </li>
-        <li>
-            <a href="/essays/example-essay/">The Title of Your First Essay</a>
-            <div class="description">A brief description or tagline for this essay.</div>
-        </li>
-        <li>
-            <a href="/essays/another-essay/">Another Essay Title</a>
-            <div class="description">What this essay explores or argues.</div>
-        </li>
-        <li>
-            <a href="/essays/third-essay/">A Third Essay</a>
-            <div class="description">The hook or main idea of this piece.</div>
-        </li>
     </ul>
+
+    <h2>Recent Photos</h2>
+
+    <div class="photo-preview" id="photo-preview">
+        <noscript>
+            <p><a href="/photography/">View photos →</a></p>
+        </noscript>
+    </div>
+
+    <script>
+        (function() {
+            fetch('/photography/')
+                .then(function(response) { return response.text(); })
+                .then(function(html) {
+                    var parser = new DOMParser();
+                    var doc = parser.parseFromString(html, 'text/html');
+                    var photos = doc.querySelectorAll('.photo-item img');
+                    var preview = document.getElementById('photo-preview');
+                    var count = Math.min(photos.length, 3);
+
+                    if (count === 0) {
+                        preview.innerHTML = '<p style="color:#888;font-size:0.9rem;">No photos yet.</p>';
+                        return;
+                    }
+
+                    preview.innerHTML = '';
+                    for (var i = 0; i < count; i++) {
+                        var img = photos[i];
+                        var link = document.createElement('a');
+                        link.href = '/photography/';
+                        var newImg = document.createElement('img');
+                        newImg.src = img.src;
+                        newImg.alt = img.alt;
+                        link.appendChild(newImg);
+                        preview.appendChild(link);
+                    }
+                })
+                .catch(function() {
+                    document.getElementById('photo-preview').innerHTML =
+                        '<p><a href="/photography/">View photos →</a></p>';
+                });
+        })();
+    </script>
 </body>
 </html>
