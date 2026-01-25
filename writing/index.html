@@ -6,7 +6,7 @@
     <title>Writing – MKE</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
-<body>
+<body class="wide">
     <nav>
         <a href="/">home</a>
         <span class="sep">•</span>
@@ -19,31 +19,49 @@
 
     <h1>Writing</h1>
 
-    <ul class="essay-list">
-        <li>
-            <a href="/essays/thinking-historically-01/">Thinking Historically 01.</a>
-            <span class="date">September 2025</span>
-        </li>
-        <li>
-            <a href="/essays/example-essay/">The Title of Your First Essay</a>
-            <span class="date">January 2025</span>
-        </li>
-        <li>
-            <a href="/essays/another-essay/">Another Essay Title</a>
-            <span class="date">December 2024</span>
-        </li>
-        <li>
-            <a href="/essays/third-essay/">A Third Essay</a>
-            <span class="date">November 2024</span>
-        </li>
-        <li>
-            <a href="/essays/fourth-essay/">Fourth Essay Title</a>
-            <span class="date">October 2024</span>
-        </li>
-        <li>
-            <a href="/essays/fifth-essay/">Fifth Essay Here</a>
-            <span class="date">September 2024</span>
-        </li>
-    </ul>
+    <div class="writing-container">
+        <div class="writing-main">
+            <ul class="essay-list">
+                <li>
+                    <a href="/essays/thinking-historically-01/" data-words="150">Thinking Historically 01.</a>
+                    <span class="date">September 2025</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="stats-box">
+            <h3>Stats</h3>
+            <div class="stat-item">
+                <div class="stat-value" id="essay-count">0</div>
+                <div class="stat-label">essays</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="word-count">0</div>
+                <div class="stat-label">words</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="page-count">0</div>
+                <div class="stat-label">pages</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const essays = document.querySelectorAll('.essay-list a[data-words]');
+            const essayCount = essays.length;
+            let totalWords = 0;
+
+            essays.forEach(function(essay) {
+                totalWords += parseInt(essay.dataset.words, 10) || 0;
+            });
+
+            const pages = Math.ceil(totalWords / 250);
+
+            document.getElementById('essay-count').textContent = essayCount;
+            document.getElementById('word-count').textContent = totalWords.toLocaleString();
+            document.getElementById('page-count').textContent = pages;
+        })();
+    </script>
 </body>
 </html>
