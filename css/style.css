@@ -1,4 +1,4 @@
-/* Minimal personal website styles */
+/* Minimal site styles - inspired by macwright.com */
 
 * {
     margin: 0;
@@ -7,182 +7,184 @@
 }
 
 html {
-    font-size: 18px;
+    font-size: 16px;
 }
 
 body {
-    font-family: Georgia, 'Times New Roman', serif;
-    line-height: 1.7;
-    color: #222;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #1a1a1a;
     background: #fff;
-    max-width: 640px;
-    margin: 0 auto;
-    padding: 3rem 1.5rem;
 }
 
-body.wide {
-    max-width: 820px;
+/* Layout */
+.container {
+    display: flex;
+    min-height: 100vh;
 }
 
-/* Navigation */
-nav {
-    margin-bottom: 3rem;
+/* Sidebar */
+.sidebar {
+    width: 180px;
+    padding: 2rem 1.5rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
 }
 
-nav a {
-    color: #222;
+.sidebar-logo {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1a1a1a;
     text-decoration: none;
+    display: block;
+    margin-bottom: 2rem;
 }
 
-nav a:hover {
-    text-decoration: underline;
+.sidebar-logo:hover {
+    color: #666;
 }
 
-nav .sep {
-    color: #999;
-    margin: 0 0.5rem;
+.sidebar-nav {
+    list-style: none;
+}
+
+.sidebar-nav li {
+    margin-bottom: 0.5rem;
+}
+
+.sidebar-nav a {
+    color: #666;
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+
+.sidebar-nav a:hover {
+    color: #1a1a1a;
+}
+
+.sidebar-nav a.active {
+    color: #1a1a1a;
+}
+
+/* Main content */
+.main {
+    flex: 1;
+    margin-left: 180px;
+    padding: 2rem 2rem 4rem;
+    max-width: 700px;
 }
 
 /* Typography */
 h1 {
     font-size: 1.5rem;
-    font-weight: normal;
+    font-weight: 600;
     margin-bottom: 1.5rem;
 }
 
 h2 {
-    font-size: 1.1rem;
-    font-weight: normal;
-    margin-top: 2.5rem;
+    font-size: 1rem;
+    font-weight: 600;
     margin-bottom: 1rem;
-    color: #555;
+    color: #1a1a1a;
 }
 
 p {
     margin-bottom: 1rem;
+    color: #333;
 }
 
 a {
-    color: #222;
-}
-
-/* Homepage bio */
-.bio {
-    margin-bottom: 2.5rem;
-}
-
-/* Essay list */
-.essay-list {
-    list-style: none;
-}
-
-.essay-list li {
-    margin-bottom: 1.5rem;
-}
-
-.essay-list a {
-    text-decoration: none;
-}
-
-.essay-list a:hover {
+    color: #1a1a1a;
     text-decoration: underline;
+    text-decoration-color: #ccc;
+    text-underline-offset: 2px;
 }
 
-.essay-list .description {
-    color: #666;
-    font-size: 0.95rem;
+a:hover {
+    text-decoration-color: #1a1a1a;
 }
 
-.essay-list .date {
-    color: #888;
-    font-size: 0.9rem;
-}
-
-/* Individual essay pages */
-.essay-title {
-    font-size: 1.4rem;
-    margin-bottom: 0.5rem;
-}
-
-.essay-date {
-    color: #888;
-    font-size: 0.9rem;
-    margin-bottom: 2rem;
-}
-
-.essay-content p {
-    margin-bottom: 1.25rem;
-}
-
-/* Work & Contact pages */
-.work-section {
-    margin-bottom: 2rem;
-}
-
-.work-section h3 {
-    font-size: 1rem;
-    font-weight: normal;
-    margin-bottom: 0.5rem;
-}
-
-/* Writing page layout */
-.writing-container {
+/* Section headers with arrow */
+.section-header {
     display: flex;
-    gap: 3rem;
-    align-items: flex-start;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    margin-top: 2.5rem;
 }
 
-.writing-main {
-    flex: 1;
-    min-width: 0;
+.section-header:first-child {
+    margin-top: 0;
 }
 
-.stats-box {
-    width: 180px;
-    flex-shrink: 0;
-    position: sticky;
-    top: 2rem;
-    padding: 1rem 1rem 0.75rem;
-    border: 2px solid #222;
+.section-header h2 {
+    margin: 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #666;
+}
+
+.section-header a {
+    color: #999;
+    text-decoration: none;
     font-size: 0.85rem;
 }
 
-.stats-box legend {
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    padding: 0 0.4rem;
-    margin-left: -0.2rem;
+.section-header a:hover {
+    color: #1a1a1a;
 }
 
-.stat-item {
-    margin-bottom: 0.25rem;
+/* Post list (Output) */
+.post-list {
+    list-style: none;
+}
+
+.post-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.4rem 0;
+    gap: 1rem;
+}
+
+.post-list a {
+    color: #1a1a1a;
+    text-decoration: none;
+}
+
+.post-list a:hover {
+    text-decoration: underline;
+}
+
+.post-list .date {
+    color: #999;
+    font-size: 0.9rem;
     white-space: nowrap;
 }
 
-.stat-label {
-    font-weight: bold;
+/* Captures thumbnails (homepage) */
+.captures-row {
+    display: flex;
+    gap: 0.75rem;
+    overflow: hidden;
 }
 
-.stat-value {
-    font-weight: normal;
+.captures-row a {
+    flex-shrink: 0;
 }
 
-/* Photo grid - masonry style */
-.photo-section {
-    margin-bottom: 3rem;
+.captures-row img {
+    height: 120px;
+    width: auto;
+    display: block;
 }
 
-.photo-section-title {
-    font-size: 1rem;
-    font-weight: normal;
-    color: #555;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid #e0e0e0;
-}
-
-.photo-grid {
+/* Captures grid (full page) */
+.captures-grid {
     -webkit-column-count: 3;
     -moz-column-count: 3;
     column-count: 3;
@@ -191,7 +193,7 @@ a {
     column-gap: 1rem;
 }
 
-.photo-item {
+.capture-item {
     -webkit-column-break-inside: avoid;
     page-break-inside: avoid;
     break-inside: avoid;
@@ -200,89 +202,116 @@ a {
     width: 100%;
 }
 
-.photo-item a {
-    display: block;
-}
-
-.photo-item img {
+.capture-item img {
     width: 100%;
     height: auto;
     display: block;
-    transition: opacity 0.2s;
 }
 
-.photo-item img:hover {
-    opacity: 0.85;
+/* Intake list */
+.intake-list {
+    list-style: none;
 }
 
-.photo-caption {
-    font-size: 0.8rem;
+.intake-list li {
+    padding: 0.4rem 0;
+}
+
+.intake-list a {
+    color: #1a1a1a;
+    text-decoration: none;
+}
+
+.intake-list a:hover {
+    text-decoration: underline;
+}
+
+.intake-list .source {
+    color: #999;
+    font-size: 0.9rem;
+}
+
+/* About page */
+.about-photo {
+    width: 150px;
+    height: auto;
+    margin-bottom: 1.5rem;
+}
+
+.about-content p {
+    margin-bottom: 1.25rem;
+}
+
+.contact-section {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
+}
+
+.contact-section h2 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
     color: #666;
-    margin-top: 0.3rem;
+    margin-bottom: 0.75rem;
 }
 
-/* Homepage photo preview */
-.photo-preview {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    margin-top: 1rem;
-    align-items: start;
+/* Article content */
+article ul, article ol {
+    margin: 0 0 1rem 1.5rem;
 }
 
-.photo-preview img {
-    width: 100%;
-    height: auto;
-    max-height: 200px;
-    object-fit: contain;
-    display: block;
+article li {
+    margin-bottom: 0.25rem;
 }
 
-.photo-preview a {
-    display: block;
-    transition: opacity 0.2s;
-}
-
-.photo-preview a:hover {
-    opacity: 0.85;
+article ul ul {
+    margin-top: 0.25rem;
+    margin-bottom: 0.5rem;
 }
 
 /* Responsive */
-@media (max-width: 600px) {
-    html {
-        font-size: 16px;
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
     }
 
-    body {
-        padding: 2rem 1rem;
-    }
-
-    .writing-container {
-        flex-direction: column-reverse;
-        gap: 1.5rem;
-    }
-
-    .stats-box {
+    .sidebar {
+        position: relative;
         width: 100%;
-        position: static;
+        height: auto;
+        padding: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 2rem;
     }
 
-    .stat-item {
-        margin-bottom: 0.25rem;
+    .sidebar-logo {
+        margin-bottom: 0;
     }
 
-    .photo-grid {
+    .sidebar-nav {
+        display: flex;
+        gap: 1.25rem;
+    }
+
+    .sidebar-nav li {
+        margin-bottom: 0;
+    }
+
+    .main {
+        margin-left: 0;
+        padding: 1.5rem;
+    }
+
+    .captures-grid {
         -webkit-column-count: 2;
         -moz-column-count: 2;
         column-count: 2;
     }
 
-    .photo-preview {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 0.5rem;
-    }
-
-    .photo-preview img {
-        max-height: 120px;
+    .captures-row img {
+        height: 80px;
     }
 }

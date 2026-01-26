@@ -7,74 +7,101 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <nav>
-        <a href="/">home</a>
-        <span class="sep">•</span>
-        <a href="/writing/">writing</a>
-        <span class="sep">•</span>
-        <a href="/photography/">photography</a>
-        <span class="sep">•</span>
-        <a href="/work/">work</a>
-        <span class="sep">•</span>
-        <a href="/contact/">contact</a>
-    </nav>
+    <div class="container">
+        <aside class="sidebar">
+            <a href="/" class="sidebar-logo">MKE</a>
+            <ul class="sidebar-nav">
+                <li><a href="/output/">Output</a></li>
+                <li><a href="/captures/">Captures</a></li>
+                <li><a href="/intake/">Intake</a></li>
+                <li><a href="/about/">About</a></li>
+            </ul>
+        </aside>
 
-    <h1>MKE</h1>
+        <main class="main">
+            <!-- Output Section -->
+            <div class="section-header">
+                <h2>Output</h2>
+                <a href="/output/">→</a>
+            </div>
+            <ul class="post-list">
+                <li>
+                    <a href="/output/thinking-historically-01/">Thinking Historically 01.</a>
+                    <span class="date">Sep 2025</span>
+                </li>
+                <li>
+                    <a href="/output/placeholder-post/">Another Post Title</a>
+                    <span class="date">Aug 2025</span>
+                </li>
+                <li>
+                    <a href="/output/third-post/">A Third Post Here</a>
+                    <span class="date">Jul 2025</span>
+                </li>
+            </ul>
 
-    <div class="bio">
-        <p>Just messing around right now. Let's see where this goes.</p>
-    </div>
+            <!-- Captures Section -->
+            <div class="section-header">
+                <h2>Captures</h2>
+                <a href="/captures/">→</a>
+            </div>
+            <div class="captures-row" id="captures-preview">
+                <!-- JS will populate this with 5 images from /captures/ -->
+            </div>
 
-    <h2>Selected Writing</h2>
-
-    <ul class="essay-list">
-        <li>
-            <a href="/essays/thinking-historically-01/">Thinking Historically 01.</a>
-            <div class="description">Parallels between 1960s America and today.</div>
-        </li>
-    </ul>
-
-    <h2>Recent Photos</h2>
-
-    <div class="photo-preview" id="photo-preview">
-        <noscript>
-            <p><a href="/photography/">View photos →</a></p>
-        </noscript>
+            <!-- Intake Section -->
+            <div class="section-header">
+                <h2>Intake</h2>
+                <a href="/intake/">→</a>
+            </div>
+            <ul class="intake-list">
+                <li>
+                    <a href="#">The Power Broker</a>
+                    <span class="source">Robert Caro</span>
+                </li>
+                <li>
+                    <a href="#">Meditations</a>
+                    <span class="source">Marcus Aurelius</span>
+                </li>
+                <li>
+                    <a href="#">The Scout Mindset</a>
+                    <span class="source">Julia Galef</span>
+                </li>
+            </ul>
+        </main>
     </div>
 
     <script>
-        (function() {
-            fetch('/photography/')
-                .then(function(response) { return response.text(); })
-                .then(function(html) {
-                    var parser = new DOMParser();
-                    var doc = parser.parseFromString(html, 'text/html');
-                    var photos = doc.querySelectorAll('.photo-item img');
-                    var preview = document.getElementById('photo-preview');
-                    var count = Math.min(photos.length, 3);
+        // Load 5 captures for homepage preview
+        fetch('/captures/')
+            .then(function(response) { return response.text(); })
+            .then(function(html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                var images = doc.querySelectorAll('.capture-item img');
+                var preview = document.getElementById('captures-preview');
+                var count = Math.min(images.length, 5);
 
-                    if (count === 0) {
-                        preview.innerHTML = '<p style="color:#888;font-size:0.9rem;">No photos yet.</p>';
-                        return;
-                    }
+                if (count === 0) {
+                    preview.innerHTML = '<p style="color:#999;">No captures yet.</p>';
+                    return;
+                }
 
-                    preview.innerHTML = '';
-                    for (var i = 0; i < count; i++) {
-                        var img = photos[i];
-                        var link = document.createElement('a');
-                        link.href = '/photography/';
-                        var newImg = document.createElement('img');
-                        newImg.src = img.src;
-                        newImg.alt = img.alt;
-                        link.appendChild(newImg);
-                        preview.appendChild(link);
-                    }
-                })
-                .catch(function() {
-                    document.getElementById('photo-preview').innerHTML =
-                        '<p><a href="/photography/">View photos →</a></p>';
-                });
-        })();
+                preview.innerHTML = '';
+                for (var i = 0; i < count; i++) {
+                    var img = images[i];
+                    var link = document.createElement('a');
+                    link.href = '/captures/';
+                    var newImg = document.createElement('img');
+                    newImg.src = img.src;
+                    newImg.alt = img.alt || 'Capture';
+                    link.appendChild(newImg);
+                    preview.appendChild(link);
+                }
+            })
+            .catch(function() {
+                document.getElementById('captures-preview').innerHTML =
+                    '<p style="color:#999;">No captures yet.</p>';
+            });
     </script>
 </body>
 </html>
