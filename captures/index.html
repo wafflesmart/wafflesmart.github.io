@@ -129,5 +129,74 @@
             </div>
         </main>
     </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" aria-label="Close">&times;</button>
+        <button class="lightbox-nav lightbox-prev" aria-label="Previous">&#8249;</button>
+        <div class="lightbox-content">
+            <img src="" alt="Photo" id="lightbox-img">
+        </div>
+        <button class="lightbox-nav lightbox-next" aria-label="Next">&#8250;</button>
+    </div>
+
+    <script>
+        (function() {
+            var lightbox = document.getElementById('lightbox');
+            var lightboxImg = document.getElementById('lightbox-img');
+            var images = document.querySelectorAll('.capture-item img');
+            var currentIndex = 0;
+
+            // Open lightbox on image click
+            images.forEach(function(img, index) {
+                img.addEventListener('click', function() {
+                    currentIndex = index;
+                    lightboxImg.src = img.src;
+                    lightbox.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+
+            // Close lightbox
+            lightbox.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+            lightbox.addEventListener('click', function(e) {
+                if (e.target === lightbox) {
+                    closeLightbox();
+                }
+            });
+
+            function closeLightbox() {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            // Navigation
+            lightbox.querySelector('.lightbox-prev').addEventListener('click', function(e) {
+                e.stopPropagation();
+                currentIndex = (currentIndex - 1 + images.length) % images.length;
+                lightboxImg.src = images[currentIndex].src;
+            });
+
+            lightbox.querySelector('.lightbox-next').addEventListener('click', function(e) {
+                e.stopPropagation();
+                currentIndex = (currentIndex + 1) % images.length;
+                lightboxImg.src = images[currentIndex].src;
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (!lightbox.classList.contains('active')) return;
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') {
+                    currentIndex = (currentIndex - 1 + images.length) % images.length;
+                    lightboxImg.src = images[currentIndex].src;
+                }
+                if (e.key === 'ArrowRight') {
+                    currentIndex = (currentIndex + 1) % images.length;
+                    lightboxImg.src = images[currentIndex].src;
+                }
+            });
+        })();
+    </script>
 </body>
 </html>
