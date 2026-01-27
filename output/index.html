@@ -20,47 +20,17 @@
 
         <main class="main">
             <h1>Output</h1>
-            <ul class="post-list" id="post-list">
-                <li style="color:#999;">Loading posts...</li>
+            <ul class="post-list">
+                <li>
+                    <a href="/output/under-construction/">Under Construction</a>
+                    <span class="date">Jan 2026</span>
+                </li>
+                <li>
+                    <a href="/output/thinking-historically-01/">Thinking Historically 01.</a>
+                    <span class="date">Sep 2025</span>
+                </li>
             </ul>
         </main>
     </div>
-
-    <script>
-        fetch('/output/posts/posts.json')
-            .then(function(response) { return response.json(); })
-            .then(function(posts) {
-                // Sort by date (newest first)
-                posts.sort(function(a, b) {
-                    return new Date(b.date) - new Date(a.date);
-                });
-
-                var list = document.getElementById('post-list');
-                list.innerHTML = '';
-
-                posts.forEach(function(post) {
-                    var li = document.createElement('li');
-
-                    var a = document.createElement('a');
-                    a.href = '/output/post.html?slug=' + post.slug;
-                    a.textContent = post.title;
-
-                    var span = document.createElement('span');
-                    span.className = 'date';
-                    var date = new Date(post.date);
-                    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                                  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-                    span.textContent = months[date.getMonth()] + ' ' + date.getFullYear();
-
-                    li.appendChild(a);
-                    li.appendChild(span);
-                    list.appendChild(li);
-                });
-            })
-            .catch(function() {
-                document.getElementById('post-list').innerHTML =
-                    '<li style="color:#999;">No posts yet.</li>';
-            });
-    </script>
 </body>
 </html>
