@@ -24,8 +24,15 @@
                 <h2>Output</h2>
                 <a href="/output/">→</a>
             </div>
-            <ul class="post-list" id="output-preview">
-                <li style="color:#999;">Loading...</li>
+            <ul class="post-list">
+                <li>
+                    <a href="/output/under-construction/">Under Construction</a>
+                    <span class="date">Jan 2026</span>
+                </li>
+                <li>
+                    <a href="/output/thinking-historically-01/">Thinking Historically 01.</a>
+                    <span class="date">Sep 2025</span>
+                </li>
             </ul>
 
             <!-- Captures Section -->
@@ -49,58 +56,18 @@
     </div>
 
     <script>
-        // Load Output posts
-        fetch('/output/posts/posts.json')
-            .then(function(response) { return response.json(); })
-            .then(function(posts) {
-                posts.sort(function(a, b) {
-                    return new Date(b.date) - new Date(a.date);
-                });
-
-                var list = document.getElementById('output-preview');
-                list.innerHTML = '';
-
-                var count = Math.min(posts.length, 5);
-                for (var i = 0; i < count; i++) {
-                    var post = posts[i];
-                    var li = document.createElement('li');
-
-                    var a = document.createElement('a');
-                    a.href = '/output/post.html?slug=' + post.slug;
-                    a.textContent = post.title;
-
-                    var span = document.createElement('span');
-                    span.className = 'date';
-                    var date = new Date(post.date);
-                    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                                  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-                    span.textContent = months[date.getMonth()] + ' ' + date.getFullYear();
-
-                    li.appendChild(a);
-                    li.appendChild(span);
-                    list.appendChild(li);
-                }
-            })
-            .catch(function() {
-                document.getElementById('output-preview').innerHTML =
-                    '<li style="color:#999;">No posts yet.</li>';
-            });
-
         // Load Captures
         fetch('/captures/photos/photos.json')
             .then(function(response) { return response.json(); })
             .then(function(photos) {
-                // Sort by date (oldest first for numbering)
                 photos.sort(function(a, b) {
                     return new Date(a.date) - new Date(b.date);
                 });
 
-                // Assign numbers
                 photos.forEach(function(photo, index) {
                     photo.number = String(index + 1).padStart(3, '0');
                 });
 
-                // Show newest 5 (reverse for display)
                 var preview = document.getElementById('captures-preview');
                 preview.innerHTML = '';
 
