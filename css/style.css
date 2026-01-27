@@ -73,7 +73,7 @@ body {
     flex: 1;
     margin-left: 180px;
     padding: 2rem 2rem 4rem;
-    max-width: 700px;
+    max-width: 1000px;
 }
 
 /* Typography */
@@ -661,6 +661,27 @@ article ul ul {
     }
 
     .captures-row img {
+        height: 80px;
+    }
+
+    .intake-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 0.75rem;
+    }
+
+    .intake-card.flip-card {
+        height: 160px;
+    }
+
+    .intake-card.flip-card.square {
+        height: 100px;
+    }
+
+    .intake-card.text-card {
+        height: 160px;
+    }
+
+    .intake-row img {
         height: 80px;
     }
 }
