@@ -44,7 +44,6 @@
             .then(function(items) {
                 renderItems(items);
 
-                // Filter buttons
                 document.querySelectorAll('.filter-btn').forEach(function(btn) {
                     btn.addEventListener('click', function() {
                         document.querySelectorAll('.filter-btn').forEach(function(b) {
@@ -79,10 +78,15 @@
                 card.className = 'intake-card';
                 card.dataset.type = item.type;
 
-                var isMediaCard = ['book', 'music', 'movie'].indexOf(item.type) > -1;
-                var isTextCard = ['video', 'speech'].indexOf(item.type) > -1;
+                var hasCover = item.cover && item.cover.length > 0;
+                var isTextOnly = !hasCover && ['video', 'speech'].indexOf(item.type) > -1;
 
-                if (isMediaCard) {
+                // Build title (with optional link)
+                var titleHtml = item.link
+                    ? '<a href="' + item.link + '" target="_blank">' + item.title + '</a>'
+                    : item.title;
+
+                if (hasCover) {
                     // Flip card with cover
                     card.classList.add('flip-card');
                     if (item.type === 'music') card.classList.add('square');
@@ -90,35 +94,29 @@
                     var inner = document.createElement('div');
                     inner.className = 'flip-card-inner';
 
-                    // Front (cover image)
                     var front = document.createElement('div');
                     front.className = 'flip-card-front';
-                    if (item.cover) {
-                        var img = document.createElement('img');
-                        img.src = '/intake/covers/' + item.cover;
-                        img.alt = item.title;
-                        front.appendChild(img);
-                    } else {
-                        front.innerHTML = '<div class="no-cover">' + item.title + '</div>';
-                    }
+                    var img = document.createElement('img');
+                    img.src = '/intake/covers/' + item.cover;
+                    img.alt = item.title;
+                    front.appendChild(img);
 
-                    // Back (details)
                     var back = document.createElement('div');
                     back.className = 'flip-card-back';
                     back.innerHTML =
-                        '<div class="card-title">' + item.title + '</div>' +
-                        '<div class="card-creator">' + item.creator + '</div>' +
+                        '<div class="card-title">' + titleHtml + '</div>' +
+                        (item.creator ? '<div class="card-creator">' + item.creator + '</div>' : '') +
                         (item.comment ? '<div class="card-comment">' + item.comment + '</div>' : '');
 
                     inner.appendChild(front);
                     inner.appendChild(back);
                     card.appendChild(inner);
-                } else if (isTextCard) {
+                } else {
                     // Text-only card
                     card.classList.add('text-card');
                     card.innerHTML =
-                        '<div class="card-title">' + item.title + '</div>' +
-                        '<div class="card-creator">' + item.creator + '</div>' +
+                        '<div class="card-title">' + titleHtml + '</div>' +
+                        (item.creator ? '<div class="card-creator">' + item.creator + '</div>' : '') +
                         (item.comment ? '<div class="card-comment">' + item.comment + '</div>' : '');
                 }
 
