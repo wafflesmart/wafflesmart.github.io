@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading... – MKE</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <a href="/" class="sidebar-logo">MKE</a>
+            <ul class="sidebar-nav">
+                <li><a href="/output/" class="active">Output</a></li>
+                <li><a href="/captures/">Captures</a></li>
+                <li><a href="/intake/">Intake</a></li>
+                <li><a href="/about/">About</a></li>
+            </ul>
+        </aside>
+
+        <main class="main">
+            <article id="article">
+                <p style="color:#999;">Loading...</p>
+            </article>
+        </main>
+    </div>
+
+    <script>
+        var params = new URLSearchParams(window.location.search);
+        var slug = params.get('slug');
+
+        if (!slug) {
+            window.location.href = '/output/';
+        } else {
+            fetch('/output/posts/' + slug + '.md')
+                .then(function(response) {
+                    if (!response.ok) throw new Error('Not found');
+                    return response.text();
+                })
+                .then(function(md) {
+                    // Parse frontmatter
+                    var frontmatterMatch = md.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+                    var title = slug;
+                    var date = '';
+                    var content = md;
+
+                    if (frontmatterMatch) {
+                        var frontmatter = frontmatterMatch[1];
+                        content = frontmatterMatch[2];
+
+                        var titleMatch = frontmatter.match(/title:\s*(.+)/);
+                        if (titleMatch) title = titleMatch[1].trim();
+
+                        var dateMatch = frontmatter.match(/date:\s*(.+)/);
+                        if (dateMatch) {
+                            var d = new Date(dateMatch[1].trim());
+                            var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                                          'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                            date = d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+                        }
+                    }
+
+                    document.title = title + ' – MKE';
+
+                    var article = document.getElementById('article');
+                    article.innerHTML = '<h1>' + title + '</h1>' +
+                        '<p style="color:#999;margin-bottom:2rem;">' + date + '</p>' +
+                        '<div class="post-content">' + marked.parse(content) + '</div>';
+                })
+                .catch(function() {
+                    document.getElementById('article').innerHTML =
+                        '<h1>Post Not Found</h1><p><a href="/output/">← Back to Output</a></p>';
+                });
+        }
+    </script>
+</body>
+</html>

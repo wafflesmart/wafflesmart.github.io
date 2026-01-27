@@ -20,25 +20,111 @@
 
         <main class="main">
             <h1>Intake</h1>
-            <ul class="intake-list">
-                <li>
-                    The Lost Peace: Leadership in a Time of Horror and Hope, 1945-1953
-                    <span class="source">Robert Dallek</span>
-                </li>
-                <li>
-                    Mere Christianity
-                    <span class="source">C.S. Lewis</span>
-                </li>
-                <li>
-                    Age of Revolutions: Progress and Backlash from 1600 to the Present
-                    <span class="source">Fareed Zakaria</span>
-                </li>
-                <li>
-                    Thinking Historically: A Guide to Statecraft and Strategy
-                    <span class="source">Francis J. Gavin</span>
-                </li>
-            </ul>
+
+            <div class="intake-filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="book">Books</button>
+                <button class="filter-btn" data-filter="music">Music</button>
+                <button class="filter-btn" data-filter="movie">Movies</button>
+                <button class="filter-btn" data-filter="video">Videos</button>
+                <button class="filter-btn" data-filter="speech">Speeches</button>
+            </div>
+
+            <div class="intake-grid" id="intake-grid">
+                <p style="color:#999;">Loading...</p>
+            </div>
         </main>
     </div>
+
+    <script>
+        var currentFilter = 'all';
+
+        fetch('/intake/intake.json')
+            .then(function(response) { return response.json(); })
+            .then(function(items) {
+                renderItems(items);
+
+                // Filter buttons
+                document.querySelectorAll('.filter-btn').forEach(function(btn) {
+                    btn.addEventListener('click', function() {
+                        document.querySelectorAll('.filter-btn').forEach(function(b) {
+                            b.classList.remove('active');
+                        });
+                        btn.classList.add('active');
+                        currentFilter = btn.dataset.filter;
+                        renderItems(items);
+                    });
+                });
+            })
+            .catch(function() {
+                document.getElementById('intake-grid').innerHTML =
+                    '<p style="color:#999;">No items yet.</p>';
+            });
+
+        function renderItems(items) {
+            var grid = document.getElementById('intake-grid');
+            grid.innerHTML = '';
+
+            var filtered = items.filter(function(item) {
+                return currentFilter === 'all' || item.type === currentFilter;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<p style="color:#999;">No items in this category.</p>';
+                return;
+            }
+
+            filtered.forEach(function(item) {
+                var card = document.createElement('div');
+                card.className = 'intake-card';
+                card.dataset.type = item.type;
+
+                var isMediaCard = ['book', 'music', 'movie'].indexOf(item.type) > -1;
+                var isTextCard = ['video', 'speech'].indexOf(item.type) > -1;
+
+                if (isMediaCard) {
+                    // Flip card with cover
+                    card.classList.add('flip-card');
+                    if (item.type === 'music') card.classList.add('square');
+
+                    var inner = document.createElement('div');
+                    inner.className = 'flip-card-inner';
+
+                    // Front (cover image)
+                    var front = document.createElement('div');
+                    front.className = 'flip-card-front';
+                    if (item.cover) {
+                        var img = document.createElement('img');
+                        img.src = '/intake/covers/' + item.cover;
+                        img.alt = item.title;
+                        front.appendChild(img);
+                    } else {
+                        front.innerHTML = '<div class="no-cover">' + item.title + '</div>';
+                    }
+
+                    // Back (details)
+                    var back = document.createElement('div');
+                    back.className = 'flip-card-back';
+                    back.innerHTML =
+                        '<div class="card-title">' + item.title + '</div>' +
+                        '<div class="card-creator">' + item.creator + '</div>' +
+                        (item.comment ? '<div class="card-comment">' + item.comment + '</div>' : '');
+
+                    inner.appendChild(front);
+                    inner.appendChild(back);
+                    card.appendChild(inner);
+                } else if (isTextCard) {
+                    // Text-only card
+                    card.classList.add('text-card');
+                    card.innerHTML =
+                        '<div class="card-title">' + item.title + '</div>' +
+                        '<div class="card-creator">' + item.creator + '</div>' +
+                        (item.comment ? '<div class="card-comment">' + item.comment + '</div>' : '');
+                }
+
+                grid.appendChild(card);
+            });
+        }
+    </script>
 </body>
 </html>

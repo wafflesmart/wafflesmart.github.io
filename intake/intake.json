@@ -1,0 +1,30 @@
+[
+  {
+    "type": "book",
+    "title": "The Lost Peace: Leadership in a Time of Horror and Hope, 1945-1953",
+    "creator": "Robert Dallek",
+    "cover": "lost-peace.jpg",
+    "comment": ""
+  },
+  {
+    "type": "book",
+    "title": "Mere Christianity",
+    "creator": "C.S. Lewis",
+    "cover": "mere-christianity.jpg",
+    "comment": ""
+  },
+  {
+    "type": "book",
+    "title": "Age of Revolutions: Progress and Backlash from 1600 to the Present",
+    "creator": "Fareed Zakaria",
+    "cover": "age-of-revolutions.jpg",
+    "comment": ""
+  },
+  {
+    "type": "book",
+    "title": "Thinking Historically: A Guide to Statecraft and Strategy",
+    "creator": "Francis J. Gavin",
+    "cover": "thinking-historically.jpg",
+    "comment": ""
+  }
+]
