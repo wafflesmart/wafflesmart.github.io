@@ -33,5 +33,27 @@
     "creator": "Francis J. Gavin",
     "cover": "thinking-historically.jpg",
     "comment": ""
+  },
+  {
+    "type": "music",
+    "title": "A Sailor's Guide to Earth",
+    "creator": "Sturgill Simpson",
+    "cover": "sailors-guide-to-earth.jpg",
+    "comment": ""
+  },
+  {
+    "type": "movie",
+    "title": "2001: A Space Odyssey",
+    "creator": "",
+    "cover": "2001-space-odyssey.jpg",
+    "comment": ""
+  },
+  {
+    "type": "speech",
+    "title": "Abraham Lincoln's Lyceum Address",
+    "creator": "Abraham Lincoln",
+    "cover": "lincoln-lyceum-address.jpg",
+    "link": "https://www.abrahamlincolnonline.org/lincoln/speeches/lyceum.htm",
+    "comment": ""
   }
 ]
