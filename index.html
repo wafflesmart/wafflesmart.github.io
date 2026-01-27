@@ -21,7 +21,7 @@
         <main class="main">
             <!-- Output Section -->
             <div class="section-header">
-                <h2>Output</h2>
+                <a href="/output/"><h2>Output</h2></a>
                 <a href="/output/">→</a>
             </div>
             <ul class="post-list">
@@ -37,7 +37,7 @@
 
             <!-- Captures Section -->
             <div class="section-header">
-                <h2>Captures</h2>
+                <a href="/captures/"><h2>Captures</h2></a>
                 <a href="/captures/">→</a>
             </div>
             <div class="captures-row" id="captures-preview">
@@ -46,12 +46,12 @@
 
             <!-- Intake Section -->
             <div class="section-header">
-                <h2>Intake</h2>
+                <a href="/intake/"><h2>Intake</h2></a>
                 <a href="/intake/">→</a>
             </div>
-            <ul class="intake-list" id="intake-preview">
-                <li style="color:#999;">Loading...</li>
-            </ul>
+            <div class="intake-row" id="intake-preview">
+                <!-- JS will populate this with thumbnails -->
+            </div>
         </main>
     </div>
 
@@ -98,31 +98,32 @@
                     '<p style="color:#999;">No captures yet.</p>';
             });
 
-        // Load Intake
+        // Load Intake (with thumbnails)
         fetch('/intake/intake.json')
             .then(function(response) { return response.json(); })
             .then(function(items) {
-                var list = document.getElementById('intake-preview');
-                list.innerHTML = '';
+                var preview = document.getElementById('intake-preview');
+                preview.innerHTML = '';
 
-                var count = Math.min(items.length, 4);
+                var count = Math.min(items.length, 5);
                 for (var i = 0; i < count; i++) {
                     var item = items[i];
-                    var li = document.createElement('li');
-                    li.textContent = item.title;
+                    if (item.cover) {
+                        var link = document.createElement('a');
+                        link.href = '/intake/';
 
-                    var span = document.createElement('span');
-                    span.className = 'source';
-                    span.textContent = item.creator;
+                        var img = document.createElement('img');
+                        img.src = '/intake/covers/' + item.cover;
+                        img.alt = item.title;
 
-                    li.appendChild(document.createTextNode(' '));
-                    li.appendChild(span);
-                    list.appendChild(li);
+                        link.appendChild(img);
+                        preview.appendChild(link);
+                    }
                 }
             })
             .catch(function() {
                 document.getElementById('intake-preview').innerHTML =
-                    '<li style="color:#999;">No items yet.</li>';
+                    '<p style="color:#999;">No items yet.</p>';
             });
     </script>
 </body>
