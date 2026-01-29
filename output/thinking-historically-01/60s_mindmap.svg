@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900">
+    <defs>
+          <style>
+                  @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&amp;display=swap');
+                  .title { font-family: 'Caveat', cursive; font-size: 36px; font-weight: 700; fill: #1a1a2e; }
+                  .heading { font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; fill: #16213e; }
+                  .subheading { font-family: 'Caveat', cursive; font-size: 20px; font-weight: 700; fill: #0f3460; }
+                  .text { font-family: 'Caveat', cursive; font-size: 18px; fill: #1a1a2e; }
+                  .small { font-family: 'Caveat', cursive; font-size: 16px; fill: #1a1a2e; }
+                  .date { font-family: 'Caveat', cursive; font-size: 18px; fill: #666; font-style: italic; }
+                  .arrow { font-family: 'Caveat', cursive; font-size: 20px; font-weight: 700; fill: #e94560; }
+                  .star { fill: #f5a623; }
+                  .connector { stroke: #0f3460; stroke-width: 2; fill: none; stroke-linecap: round; }
+                  .connector-light { stroke: #94a3b8; stroke-width: 1.5; fill: none; stroke-dasharray: 5,3; }
+                  .box { fill: #f8f4e8; stroke: #0f3460; stroke-width: 2; rx: 8; }
+                  .box-highlight { fill: #fff3cd; stroke: #e94560; stroke-width: 2; rx: 8; }
+                  .box-standalone { fill: #e8f4f8; stroke: #16213e; stroke-width: 2; rx: 8; }
+          </style>
+    </defs>
+
+    <!-- Background -->
+    <rect width="1200" height="900" fill="#fdfbf7"/>
+
+    <!-- Notebook lines effect -->
+    <g opacity="0.3">
+          <line x1="50" y1="60" x2="1150" y2="60" stroke="#ccc" stroke-width="1"/>
+          <line x1="50" y1="90" x2="1150" y2="90" stroke="#e0e0e0" stroke-width="0.5"/>
+          <line x1="50" y1="120" x2="1150" y2="120" stroke="#e0e0e0" stroke-width="0.5"/>
+    </g>
+
+    <!-- Title -->
+    <text x="60" y="50" class="title">The 60s + Today</text>
+    <text x="320" y="50" class="date">09.28.25</text>
+
+    <!-- Main Section Box -->
+    <rect x="50" y="80" width="320" height="220" class="box"/>
+    <text x="70" y="110" class="heading">All responses to US domestic</text>
+    <text x="70" y="135" class="heading">unrest and soul-searching:</text>
+    <text x="80" y="165" class="text">• Gimme Shelter</text>
+    <text x="80" y="190" class="text">• Fortunate Son / Bad Moon Rising</text>
+    <text x="80" y="215" class="text">• Dr. Strangelove</text>
+    <text x="80" y="240" class="text">• Marvin Gaye</text>
+    <text x="80" y="265" class="text">• Curtis Mayfield</text>
+    <text x="80" y="290" class="text">• Charles Bradley (carrying legacy)</text>
+
+    <!-- Arrow down from main box -->
+    <path d="M 210 300 L 210 340" class="connector"/>
+    <text x="220" y="330" class="arrow">↓ splits into</text>
+
+    <!-- Split connector -->
+    <path d="M 210 340 Q 210 370 120 370 L 120 390" class="connector"/>
+    <path d="M 210 340 Q 210 370 300 370 L 300 390" class="connector"/>
+
+    <!-- Domestic Branch -->
+    <rect x="30" y="390" width="180" height="120" class="box"/>
+    <text x="50" y="420" class="subheading">Domestic:</text>
+    <text x="50" y="450" class="text">• Civil rights</text>
+    <text x="50" y="480" class="text">• Political violence</text>
+
+    <!-- Geopolitical Branch -->
+    <rect x="220" y="390" width="200" height="160" class="box"/>
+    <text x="240" y="420" class="subheading">Geopolitical tensions:</text>
+    <text x="240" y="450" class="text">• Vietnam</text>
+    <text x="240" y="475" class="text">• Rise of China</text>
+    <text x="240" y="500" class="text">• China-Russia dynamics</text>
+    <text x="240" y="525" class="text">• Rebuilding post-WW2 Europe</text>
+
+    <!-- Convergence arrows -->
+    <path d="M 120 510 Q 120 580 320 600" class="connector"/>
+    <path d="M 320 550 L 320 600" class="connector"/>
+    <text x="180" y="590" class="arrow">↓ both converge</text>
+
+    <!-- Cold War Section -->
+    <rect x="200" y="610" width="380" height="200" class="box-highlight"/>
+    <text x="220" y="645" class="heading">Cold War / Nuclear:</text>
+    <text x="220" y="680" class="text">• Feelings of elites running the world</text>
+    <text x="230" y="705" class="text">without regard for "the working man"</text>
+    <text x="220" y="740" class="text">• How did liberal political elites respond?</text>
+    <text x="230" y="765" class="text">Did they fail? What lessons to learn?</text>
+    <text x="250" y="790" class="small">◦ Jimmy Carter as case study?</text>
+    <text x="400" y="790" class="small">◦ Appeal of "Southern Social Liberals"</text>
+    <text x="250" y="810" class="small">◦ 80s: Culture Clashes</text>
+
+    <!-- Standalone Sections -->
+    <rect x="620" y="80" width="350" height="80" class="box-standalone"/>
+    <text x="640" y="110" class="subheading">1. Can re-reading/emphasizing</text>
+    <text x="640" y="135" class="text">America's founding documents spark</text>
+    <text x="640" y="155" class="text">any new soul-searching?</text>
+
+    <rect x="620" y="180" width="350" height="100" class="box-standalone"/>
+    <polygon points="635,195 645,210 625,210" class="star"/>
+    <text x="655" y="210" class="subheading">2. Atlanta as allegory for America</text>
+    <text x="640" y="240" class="text">overcoming its past and building</text>
+    <text x="640" y="265" class="text">toward a better future — "Oh Atlanta"</text>
+
+    <!-- Decorative elements -->
+    <text x="1000" y="850" class="date">Standalone Reflections ↑</text>
+
+    <!-- Connection line to standalones -->
+    <path d="M 580 120 L 620 120" class="connector-light"/>
+    <path d="M 580 230 L 620 230" class="connector-light"/>
+</svg>
