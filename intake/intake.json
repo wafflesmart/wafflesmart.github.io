@@ -6,7 +6,7 @@
     "cover": "lost-peace.jpg",
     "comment": "",
     "status": "finished",
-    "tags": []
+    "tags": ["history", "cold-war"]
   },
   {
     "type": "music",
@@ -15,7 +15,7 @@
     "cover": "outkast-southernplayalisticadillacmuzik.jpg",
     "comment": "",
     "status": "finished",
-    "tags": []
+    "tags": ["music", "culture"]
   },
   {
     "type": "book",
@@ -24,7 +24,7 @@
     "cover": "mere-christianity.jpg",
     "comment": "",
     "status": "finished",
-    "tags": []
+    "tags": ["religion"]
   },
   {
     "type": "book",
@@ -33,7 +33,7 @@
     "cover": "age-of-revolutions.jpg",
     "comment": "",
     "status": "finished",
-    "tags": []
+    "tags": ["history", "politics"]
   },
   {
     "type": "book",
@@ -42,7 +42,7 @@
     "cover": "thinking-historically.jpg",
     "comment": "",
     "status": "finished",
-    "tags": []
+    "tags": ["history"]
   },
   {
     "type": "music",
@@ -51,7 +51,7 @@
     "cover": "sailors-guide-to-earth.jpg",
     "comment": "",
     "status": "finished",
-    "tags": []
+    "tags": ["music"]
   },
   {
     "type": "movie",
@@ -60,7 +60,7 @@
     "cover": "2001-space-odyssey.jpg",
     "comment": "",
     "status": "finished",
-    "tags": []
+    "tags": ["culture"]
   },
   {
     "type": "speech",
@@ -70,6 +70,6 @@
     "link": "https://www.abrahamlincolnonline.org/lincoln/speeches/lyceum.htm",
     "comment": "",
     "status": "finished",
-    "tags": []
+    "tags": ["history", "politics"]
   }
 ]

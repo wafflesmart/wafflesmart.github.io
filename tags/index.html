@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tags – MKE</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .tag-section {
+            margin-bottom: 2.5rem;
+        }
+        .tag-section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding: 0.25rem 0.5rem;
+            display: inline-block;
+            border-radius: 3px;
+            color: #fff;
+        }
+        .tag-items {
+            margin-left: 0.5rem;
+        }
+        .tag-item {
+            padding: 0.3rem 0;
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+        }
+        .tag-item-type {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            min-width: 60px;
+        }
+        .tag-item a {
+            color: var(--text);
+            text-decoration: none;
+        }
+        .tag-item a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <a href="/" class="sidebar-logo">MKE</a>
+            <ul class="sidebar-nav">
+                <li><a href="/output/">Output</a></li>
+                <li><a href="/captures/">Captures</a></li>
+                <li><a href="/intake/">Intake</a></li>
+                <li><a href="/tags/" class="active">Tags</a></li>
+                <li><a href="/about/">About</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <span class="last-updated">Updated Feb 2026</span>
+            </div>
+        </aside>
+
+        <main class="main">
+            <h1>Tags</h1>
+            <div id="tags-container">
+                <p style="color:#999;">Loading...</p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        var tagsData = {};
+        var intakeItems = [];
+        var postsData = [];
+        var photosData = [];
+
+        // Fetch all data
+        Promise.all([
+            fetch('/tags.json').then(function(r) { return r.json(); }),
+            fetch('/intake/intake.json').then(function(r) { return r.json(); }),
+            fetch('/output/posts.json').then(function(r) { return r.json(); }),
+            fetch('/captures/photos/photos.json').then(function(r) { return r.json(); })
+        ])
+        .then(function(results) {
+            tagsData = results[0];
+            intakeItems = results[1];
+            postsData = results[2];
+            photosData = results[3];
+
+            renderTags();
+
+            // Handle hash navigation
+            if (window.location.hash) {
+                var tagId = window.location.hash.substring(1);
+                var element = document.getElementById('tag-' + tagId);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        })
+        .catch(function(err) {
+            console.error(err);
+            document.getElementById('tags-container').innerHTML =
+                '<p style="color:#999;">Error loading tags.</p>';
+        });
+
+        function renderTags() {
+            var container = document.getElementById('tags-container');
+            container.innerHTML = '';
+
+            // Group items by tag
+            var tagGroups = {};
+
+            // Process intake items
+            intakeItems.forEach(function(item) {
+                if (item.tags && item.tags.length > 0) {
+                    item.tags.forEach(function(tag) {
+                        if (!tagGroups[tag]) tagGroups[tag] = [];
+                        tagGroups[tag].push({
+                            type: 'intake',
+                            typeLabel: item.type,
+                            title: item.title,
+                            link: '/intake/'
+                        });
+                    });
+                }
+            });
+
+            // Process posts
+            postsData.forEach(function(post) {
+                if (post.tags && post.tags.length > 0) {
+                    post.tags.forEach(function(tag) {
+                        if (!tagGroups[tag]) tagGroups[tag] = [];
+                        tagGroups[tag].push({
+                            type: 'output',
+                            typeLabel: 'post',
+                            title: post.title,
+                            link: '/output/' + post.slug + '/'
+                        });
+                    });
+                }
+            });
+
+            // Process photos
+            photosData.forEach(function(photo, index) {
+                if (photo.tags && photo.tags.length > 0) {
+                    photo.tags.forEach(function(tag) {
+                        if (!tagGroups[tag]) tagGroups[tag] = [];
+                        tagGroups[tag].push({
+                            type: 'capture',
+                            typeLabel: 'photo',
+                            title: 'Capture #' + String(index + 1).padStart(3, '0'),
+                            link: '/captures/'
+                        });
+                    });
+                }
+            });
+
+            // Sort tags alphabetically
+            var sortedTags = Object.keys(tagGroups).sort();
+
+            if (sortedTags.length === 0) {
+                container.innerHTML = '<p style="color:#999;">No tagged items yet.</p>';
+                return;
+            }
+
+            sortedTags.forEach(function(tag) {
+                var tagInfo = tagsData[tag] || { label: tag, color: '#666' };
+                var items = tagGroups[tag];
+
+                var section = document.createElement('div');
+                section.className = 'tag-section';
+                section.id = 'tag-' + tag;
+
+                var title = document.createElement('h2');
+                title.className = 'tag-section-title';
+                title.style.background = tagInfo.color;
+                title.textContent = tagInfo.label;
+                section.appendChild(title);
+
+                var itemsList = document.createElement('div');
+                itemsList.className = 'tag-items';
+
+                items.forEach(function(item) {
+                    var itemDiv = document.createElement('div');
+                    itemDiv.className = 'tag-item';
+
+                    var typeSpan = document.createElement('span');
+                    typeSpan.className = 'tag-item-type';
+                    typeSpan.textContent = item.typeLabel;
+
+                    var link = document.createElement('a');
+                    link.href = item.link;
+                    link.textContent = item.title;
+
+                    itemDiv.appendChild(typeSpan);
+                    itemDiv.appendChild(link);
+                    itemsList.appendChild(itemDiv);
+                });
+
+                section.appendChild(itemsList);
+                container.appendChild(section);
+            });
+        }
+    </script>
+</body>
+</html>

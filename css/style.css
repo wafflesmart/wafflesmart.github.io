@@ -11,6 +11,17 @@
     --border: #eee;
 }
 
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #1a1a1a;
+        --text: #e0e0e0;
+        --text-secondary: #aaa;
+        --text-muted: #777;
+        --border: #333;
+    }
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -729,6 +740,29 @@ article ul ul {
     gap: 1rem;
 }
 
+/* Tag pills */
+.tag-pill {
+    display: inline-block;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 0.1rem 0.35rem;
+    border-radius: 2px;
+    margin-right: 0.25rem;
+    margin-top: 0.25rem;
+    text-decoration: none;
+    color: #fff;
+}
+
+.tag-pill a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.tags-container {
+    margin-top: 0.5rem;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .container {
@@ -796,5 +830,90 @@ article ul ul {
 
     .intake-card.text-card {
         height: 160px;
+    }
+
+    .lightbox-nav {
+        font-size: 2rem;
+        padding: 0.5rem;
+    }
+
+    .lightbox-prev {
+        left: 10px;
+    }
+
+    .lightbox-next {
+        right: 10px;
+    }
+}
+
+/* Small mobile (480px and below) */
+@media (max-width: 480px) {
+    .captures-grid {
+        -webkit-column-count: 1;
+        -moz-column-count: 1;
+        column-count: 1;
+    }
+
+    .intake-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .post-list li {
+        flex-direction: column;
+        gap: 0.15rem;
+    }
+
+    .post-list .post-title-row {
+        flex-direction: column;
+        gap: 0.15rem;
+    }
+
+    .post-list .date {
+        align-self: flex-start;
+    }
+}
+
+/* Dark mode component overrides */
+@media (prefers-color-scheme: dark) {
+    .filter-btn {
+        background: #2a2a2a;
+        border-color: #444;
+        color: var(--text-secondary);
+    }
+
+    .filter-btn.active {
+        background: #e0e0e0;
+        color: #1a1a1a;
+    }
+
+    .flip-card-front {
+        background: #2a2a2a;
+    }
+
+    .intake-card.text-card {
+        background: #2a2a2a;
+    }
+
+    .post-content code, .post-content pre {
+        background: #2a2a2a;
+    }
+
+    .post-status.draft {
+        background: #333;
+        color: #999;
+    }
+
+    .post-status.in-progress {
+        background: #3d3520;
+        color: #ffc107;
+    }
+
+    .post-status.complete {
+        background: #1a3d2a;
+        color: #4caf50;
+    }
+
+    .post-content blockquote {
+        border-left-color: #444;
     }
 }
