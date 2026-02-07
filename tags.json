@@ -1,0 +1,10 @@
+{
+  "history": { "label": "History", "color": "#8B7355" },
+  "cold-war": { "label": "Cold War", "color": "#5a7a8a" },
+  "culture": { "label": "Culture", "color": "#7a5a8a" },
+  "berlin": { "label": "Berlin", "color": "#5a8a6a" },
+  "paris": { "label": "Paris", "color": "#8a5a6a" },
+  "religion": { "label": "Religion", "color": "#6a7a5a" },
+  "politics": { "label": "Politics", "color": "#8a6a5a" },
+  "music": { "label": "Music", "color": "#5a6a8a" }
+}

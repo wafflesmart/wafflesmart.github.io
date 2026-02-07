@@ -14,6 +14,7 @@
                 <li><a href="/output/" class="active">Output</a></li>
                 <li><a href="/captures/">Captures</a></li>
                 <li><a href="/intake/">Intake</a></li>
+                <li><a href="/tags/">Tags</a></li>
                 <li><a href="/about/">About</a></li>
             </ul>
             <div class="sidebar-footer">
@@ -30,7 +31,14 @@
     </div>
 
     <script>
-        fetch('/output/posts.json')
+        var tagsData = {};
+
+        fetch('/tags.json')
+            .then(function(response) { return response.json(); })
+            .then(function(tags) {
+                tagsData = tags;
+                return fetch('/output/posts.json');
+            })
             .then(function(response) { return response.json(); })
             .then(function(posts) {
                 var list = document.getElementById('post-list');
@@ -63,6 +71,19 @@
                         statusBadge.className = 'post-status ' + statusClass;
                         statusBadge.textContent = post.status;
                         titleSpan.appendChild(statusBadge);
+                    }
+
+                    // Add tags
+                    if (post.tags && post.tags.length > 0) {
+                        post.tags.forEach(function(tag) {
+                            var tagInfo = tagsData[tag] || { label: tag, color: '#666' };
+                            var tagPill = document.createElement('a');
+                            tagPill.href = '/tags/#' + tag;
+                            tagPill.className = 'tag-pill';
+                            tagPill.style.background = tagInfo.color;
+                            tagPill.textContent = tagInfo.label;
+                            titleSpan.appendChild(tagPill);
+                        });
                     }
 
                     var dateSpan = document.createElement('span');

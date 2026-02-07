@@ -14,6 +14,7 @@
                 <li><a href="/output/">Output</a></li>
                 <li><a href="/captures/">Captures</a></li>
                 <li><a href="/intake/" class="active">Intake</a></li>
+                <li><a href="/tags/">Tags</a></li>
                 <li><a href="/about/">About</a></li>
             </ul>
             <div class="sidebar-footer">
@@ -50,8 +51,15 @@
     <script>
         var currentTypeFilter = 'all';
         var currentStatusFilter = 'all';
+        var tagsData = {};
 
-        fetch('/intake/intake.json')
+        // Fetch tags first, then items
+        fetch('/tags.json')
+            .then(function(response) { return response.json(); })
+            .then(function(tags) {
+                tagsData = tags;
+                return fetch('/intake/intake.json');
+            })
             .then(function(response) { return response.json(); })
             .then(function(items) {
                 renderItems(items);
@@ -84,6 +92,17 @@
                 document.getElementById('intake-grid').innerHTML =
                     '<p style="color:#999;">No items yet.</p>';
             });
+
+        function renderTags(tags) {
+            if (!tags || tags.length === 0) return '';
+            var html = '<div class="tags-container">';
+            tags.forEach(function(tag) {
+                var tagInfo = tagsData[tag] || { label: tag, color: '#666' };
+                html += '<a href="/tags/#' + tag + '" class="tag-pill" style="background:' + tagInfo.color + '">' + tagInfo.label + '</a>';
+            });
+            html += '</div>';
+            return html;
+        }
 
         function renderItems(items) {
             var grid = document.getElementById('intake-grid');
@@ -118,6 +137,9 @@
                     ? '<span class="status-badge">' + item.status + '</span>'
                     : '';
 
+                // Build tags
+                var tagsHtml = renderTags(item.tags);
+
                 if (hasCover) {
                     // Flip card with cover
                     card.classList.add('flip-card');
@@ -139,7 +161,8 @@
                         statusBadge +
                         '<div class="card-title">' + titleHtml + '</div>' +
                         (item.creator ? '<div class="card-creator">' + item.creator + '</div>' : '') +
-                        (item.comment ? '<div class="card-comment">' + item.comment + '</div>' : '');
+                        (item.comment ? '<div class="card-comment">' + item.comment + '</div>' : '') +
+                        tagsHtml;
 
                     inner.appendChild(front);
                     inner.appendChild(back);
@@ -150,7 +173,8 @@
                     card.innerHTML =
                         '<div class="card-title">' + titleHtml + '</div>' +
                         (item.creator ? '<div class="card-creator">' + item.creator + '</div>' : '') +
-                        (item.comment ? '<div class="card-comment">' + item.comment + '</div>' : '');
+                        (item.comment ? '<div class="card-comment">' + item.comment + '</div>' : '') +
+                        tagsHtml;
                 }
 
                 grid.appendChild(card);
