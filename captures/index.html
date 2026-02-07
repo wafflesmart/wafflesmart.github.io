@@ -16,10 +16,18 @@
                 <li><a href="/intake/">Intake</a></li>
                 <li><a href="/about/">About</a></li>
             </ul>
+            <div class="sidebar-footer">
+                <span class="last-updated">Updated Feb 2026</span>
+            </div>
         </aside>
 
         <main class="main">
             <h1>Captures</h1>
+
+            <div class="intake-filters" id="location-filters">
+                <!-- Populated by JS -->
+            </div>
+
             <div id="captures-container">
                 <p style="color:#999;">Loading captures...</p>
             </div>
@@ -33,6 +41,7 @@
         <div class="lightbox-content">
             <img src="" alt="Photo" id="lightbox-img">
             <div class="lightbox-number" id="lightbox-number"></div>
+            <div class="lightbox-caption" id="lightbox-caption"></div>
         </div>
         <button class="lightbox-nav lightbox-next" aria-label="Next">&#8250;</button>
     </div>
@@ -40,6 +49,12 @@
     <script>
         var allPhotos = [];
         var currentIndex = 0;
+        var currentLocationFilter = 'all';
+
+        // Section label mapping
+        var sectionLabels = {
+            "11.25 | BER-PAR": "November 2025 — Berlin & Paris"
+        };
 
         fetch('/captures/photos/photos.json')
             .then(function(response) { return response.json(); })
@@ -56,64 +71,11 @@
 
                 allPhotos = photos;
 
-                // Group by section
-                var sections = {};
-                photos.forEach(function(photo) {
-                    var section = photo.section || 'unsorted';
-                    if (!sections[section]) sections[section] = [];
-                    sections[section].push(photo);
-                });
+                // Build location filters
+                buildLocationFilters(photos);
 
-                var container = document.getElementById('captures-container');
-                container.innerHTML = '';
-
-                // Section order - put 'unsorted' last
-                var sectionOrder = Object.keys(sections).sort();
-                if (sectionOrder.indexOf('unsorted') > -1) {
-                    sectionOrder = sectionOrder.filter(function(s) { return s !== 'unsorted'; });
-                    sectionOrder.push('unsorted');
-                }
-
-                sectionOrder.forEach(function(sectionName) {
-                    var sectionPhotos = sections[sectionName];
-                    // Reverse within section (newest/highest numbers first in display)
-                    sectionPhotos = sectionPhotos.slice().reverse();
-
-                    var sectionDiv = document.createElement('div');
-                    sectionDiv.className = 'capture-section';
-
-                    var title = document.createElement('h2');
-                    title.className = 'capture-section-title';
-                    title.textContent = sectionName.charAt(0).toUpperCase() + sectionName.slice(1);
-                    sectionDiv.appendChild(title);
-
-                    var grid = document.createElement('div');
-                    grid.className = 'captures-grid';
-
-                    sectionPhotos.forEach(function(photo) {
-                        var item = document.createElement('div');
-                        item.className = 'capture-item';
-
-                        var img = document.createElement('img');
-                        img.src = '/photos/' + encodeURIComponent(photo.file);
-                        img.alt = 'Capture #' + photo.number;
-                        img.dataset.number = photo.number;
-                        img.dataset.globalIndex = allPhotos.indexOf(photo);
-
-                        var numberLabel = document.createElement('span');
-                        numberLabel.className = 'capture-number';
-                        numberLabel.textContent = photo.number;
-
-                        item.appendChild(img);
-                        item.appendChild(numberLabel);
-                        grid.appendChild(item);
-                    });
-
-                    sectionDiv.appendChild(grid);
-                    container.appendChild(sectionDiv);
-                });
-
-                initLightbox();
+                // Render photos
+                renderPhotos(photos);
             })
             .catch(function(err) {
                 console.error(err);
@@ -121,10 +83,116 @@
                     '<p style="color:#999;">No captures yet.</p>';
             });
 
+        function buildLocationFilters(photos) {
+            var filtersContainer = document.getElementById('location-filters');
+
+            // Get unique locations
+            var locations = [];
+            photos.forEach(function(photo) {
+                if (photo.location && locations.indexOf(photo.location) === -1) {
+                    locations.push(photo.location);
+                }
+            });
+            locations.sort();
+
+            // Build filter buttons
+            var html = '<button class="filter-btn active" data-filter="all">All Locations</button>';
+            locations.forEach(function(loc) {
+                html += '<button class="filter-btn" data-filter="' + loc + '">' + loc + '</button>';
+            });
+            filtersContainer.innerHTML = html;
+
+            // Add click handlers
+            filtersContainer.querySelectorAll('.filter-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    filtersContainer.querySelectorAll('.filter-btn').forEach(function(b) {
+                        b.classList.remove('active');
+                    });
+                    btn.classList.add('active');
+                    currentLocationFilter = btn.dataset.filter;
+                    renderPhotos(allPhotos);
+                });
+            });
+        }
+
+        function renderPhotos(photos) {
+            // Filter by location
+            var filtered = photos.filter(function(photo) {
+                return currentLocationFilter === 'all' || photo.location === currentLocationFilter;
+            });
+
+            // Group by section
+            var sections = {};
+            filtered.forEach(function(photo) {
+                var section = photo.section || 'unsorted';
+                if (!sections[section]) sections[section] = [];
+                sections[section].push(photo);
+            });
+
+            var container = document.getElementById('captures-container');
+            container.innerHTML = '';
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<p style="color:#999;">No captures in this location.</p>';
+                return;
+            }
+
+            // Section order - put 'unsorted' last
+            var sectionOrder = Object.keys(sections).sort();
+            if (sectionOrder.indexOf('unsorted') > -1) {
+                sectionOrder = sectionOrder.filter(function(s) { return s !== 'unsorted'; });
+                sectionOrder.push('unsorted');
+            }
+
+            sectionOrder.forEach(function(sectionName) {
+                var sectionPhotos = sections[sectionName];
+                // Reverse within section (newest/highest numbers first in display)
+                sectionPhotos = sectionPhotos.slice().reverse();
+
+                var sectionDiv = document.createElement('div');
+                sectionDiv.className = 'capture-section';
+
+                var title = document.createElement('h2');
+                title.className = 'capture-section-title';
+                // Use mapped label or fall back to section name
+                var displayLabel = sectionLabels[sectionName] || sectionName;
+                title.textContent = displayLabel.charAt(0).toUpperCase() + displayLabel.slice(1);
+                sectionDiv.appendChild(title);
+
+                var grid = document.createElement('div');
+                grid.className = 'captures-grid';
+
+                sectionPhotos.forEach(function(photo) {
+                    var item = document.createElement('div');
+                    item.className = 'capture-item';
+
+                    var img = document.createElement('img');
+                    img.src = '/photos/' + encodeURIComponent(photo.file);
+                    img.alt = 'Capture #' + photo.number;
+                    img.dataset.number = photo.number;
+                    img.dataset.globalIndex = allPhotos.indexOf(photo);
+
+                    var numberLabel = document.createElement('span');
+                    numberLabel.className = 'capture-number';
+                    numberLabel.textContent = photo.number;
+
+                    item.appendChild(img);
+                    item.appendChild(numberLabel);
+                    grid.appendChild(item);
+                });
+
+                sectionDiv.appendChild(grid);
+                container.appendChild(sectionDiv);
+            });
+
+            initLightbox();
+        }
+
         function initLightbox() {
             var lightbox = document.getElementById('lightbox');
             var lightboxImg = document.getElementById('lightbox-img');
             var lightboxNumber = document.getElementById('lightbox-number');
+            var lightboxCaption = document.getElementById('lightbox-caption');
             var images = document.querySelectorAll('.capture-item img');
 
             images.forEach(function(img) {
@@ -150,6 +218,12 @@
                 var photo = allPhotos[index];
                 lightboxImg.src = '/photos/' + encodeURIComponent(photo.file);
                 lightboxNumber.textContent = photo.number;
+
+                // Build caption text
+                var captionParts = [];
+                if (photo.location) captionParts.push(photo.location);
+                if (photo.caption) captionParts.push(photo.caption);
+                lightboxCaption.textContent = captionParts.join(' — ');
             }
 
             lightbox.querySelector('.lightbox-prev').addEventListener('click', function(e) {

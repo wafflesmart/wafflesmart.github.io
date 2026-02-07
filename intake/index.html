@@ -16,18 +16,29 @@
                 <li><a href="/intake/" class="active">Intake</a></li>
                 <li><a href="/about/">About</a></li>
             </ul>
+            <div class="sidebar-footer">
+                <span class="last-updated">Updated Feb 2026</span>
+            </div>
         </aside>
 
         <main class="main">
             <h1>Intake</h1>
 
-            <div class="intake-filters">
+            <div class="intake-filters" id="type-filters">
                 <button class="filter-btn active" data-filter="all">All</button>
                 <button class="filter-btn" data-filter="book">Books</button>
                 <button class="filter-btn" data-filter="music">Music</button>
                 <button class="filter-btn" data-filter="movie">Movies</button>
                 <button class="filter-btn" data-filter="video">Videos</button>
                 <button class="filter-btn" data-filter="speech">Speeches</button>
+            </div>
+
+            <div class="intake-filters" id="status-filters">
+                <button class="filter-btn active" data-filter="all">All Statuses</button>
+                <button class="filter-btn" data-filter="reading">Reading</button>
+                <button class="filter-btn" data-filter="finished">Finished</button>
+                <button class="filter-btn" data-filter="reference">Reference</button>
+                <button class="filter-btn" data-filter="queued">Queued</button>
             </div>
 
             <div class="intake-grid" id="intake-grid">
@@ -37,20 +48,34 @@
     </div>
 
     <script>
-        var currentFilter = 'all';
+        var currentTypeFilter = 'all';
+        var currentStatusFilter = 'all';
 
         fetch('/intake/intake.json')
             .then(function(response) { return response.json(); })
             .then(function(items) {
                 renderItems(items);
 
-                document.querySelectorAll('.filter-btn').forEach(function(btn) {
+                // Type filter buttons
+                document.querySelectorAll('#type-filters .filter-btn').forEach(function(btn) {
                     btn.addEventListener('click', function() {
-                        document.querySelectorAll('.filter-btn').forEach(function(b) {
+                        document.querySelectorAll('#type-filters .filter-btn').forEach(function(b) {
                             b.classList.remove('active');
                         });
                         btn.classList.add('active');
-                        currentFilter = btn.dataset.filter;
+                        currentTypeFilter = btn.dataset.filter;
+                        renderItems(items);
+                    });
+                });
+
+                // Status filter buttons
+                document.querySelectorAll('#status-filters .filter-btn').forEach(function(btn) {
+                    btn.addEventListener('click', function() {
+                        document.querySelectorAll('#status-filters .filter-btn').forEach(function(b) {
+                            b.classList.remove('active');
+                        });
+                        btn.classList.add('active');
+                        currentStatusFilter = btn.dataset.filter;
                         renderItems(items);
                     });
                 });
@@ -65,7 +90,9 @@
             grid.innerHTML = '';
 
             var filtered = items.filter(function(item) {
-                return currentFilter === 'all' || item.type === currentFilter;
+                var typeMatch = currentTypeFilter === 'all' || item.type === currentTypeFilter;
+                var statusMatch = currentStatusFilter === 'all' || item.status === currentStatusFilter;
+                return typeMatch && statusMatch;
             });
 
             if (filtered.length === 0) {
@@ -86,6 +113,11 @@
                     ? '<a href="' + item.link + '" target="_blank">' + item.title + '</a>'
                     : item.title;
 
+                // Build status badge
+                var statusBadge = item.status
+                    ? '<span class="status-badge">' + item.status + '</span>'
+                    : '';
+
                 if (hasCover) {
                     // Flip card with cover
                     card.classList.add('flip-card');
@@ -104,6 +136,7 @@
                     var back = document.createElement('div');
                     back.className = 'flip-card-back';
                     back.innerHTML =
+                        statusBadge +
                         '<div class="card-title">' + titleHtml + '</div>' +
                         (item.creator ? '<div class="card-creator">' + item.creator + '</div>' : '') +
                         (item.comment ? '<div class="card-comment">' + item.comment + '</div>' : '');
