@@ -1,0 +1,32 @@
+[
+  {
+    "slug": "under-construction-02",
+    "title": "Under Construction 02",
+    "date": "Jan 2026",
+    "status": "draft",
+    "description": "",
+    "tags": [],
+    "related_intake": [],
+    "related_captures": []
+  },
+  {
+    "slug": "under-construction",
+    "title": "Under Construction",
+    "date": "Jan 2026",
+    "status": "draft",
+    "description": "",
+    "tags": [],
+    "related_intake": [],
+    "related_captures": []
+  },
+  {
+    "slug": "thinking-historically-01",
+    "title": "Thinking Historically 01.",
+    "date": "Sep 2025",
+    "status": "in progress",
+    "description": "Notes on American domestic unrest, geopolitical tensions, and cultural soul-searching from the Cold War era through the 1980s.",
+    "tags": ["history", "cold-war", "culture"],
+    "related_intake": ["Thinking Historically"],
+    "related_captures": []
+  }
+]

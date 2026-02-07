@@ -16,25 +16,78 @@
                 <li><a href="/intake/">Intake</a></li>
                 <li><a href="/about/">About</a></li>
             </ul>
+            <div class="sidebar-footer">
+                <span class="last-updated">Updated Feb 2026</span>
+            </div>
         </aside>
 
         <main class="main">
             <h1>Output</h1>
-            <ul class="post-list">
-                <li>
-                    <a href="/output/under-construction-02/">Under Construction 02</a>
-                    <span class="date">Jan 2026</span>
-                </li>
-                <li>
-                    <a href="/output/under-construction/">Under Construction</a>
-                    <span class="date">Jan 2026</span>
-                </li>
-                <li>
-                    <a href="/output/thinking-historically-01/">Thinking Historically 01.</a>
-                    <span class="date">Sep 2025</span>
-                </li>
+            <ul class="post-list" id="post-list">
+                <li><p style="color:#999;">Loading...</p></li>
             </ul>
         </main>
     </div>
+
+    <script>
+        fetch('/output/posts.json')
+            .then(function(response) { return response.json(); })
+            .then(function(posts) {
+                var list = document.getElementById('post-list');
+                list.innerHTML = '';
+
+                if (posts.length === 0) {
+                    list.innerHTML = '<li><p style="color:#999;">No posts yet.</p></li>';
+                    return;
+                }
+
+                posts.forEach(function(post) {
+                    var li = document.createElement('li');
+
+                    // Build status class
+                    var statusClass = post.status ? post.status.replace(' ', '-') : '';
+
+                    // Title row with status and date
+                    var titleRow = document.createElement('div');
+                    titleRow.className = 'post-title-row';
+
+                    var titleSpan = document.createElement('span');
+                    var link = document.createElement('a');
+                    link.href = '/output/' + post.slug + '/';
+                    link.textContent = post.title;
+                    titleSpan.appendChild(link);
+
+                    // Add status badge
+                    if (post.status) {
+                        var statusBadge = document.createElement('span');
+                        statusBadge.className = 'post-status ' + statusClass;
+                        statusBadge.textContent = post.status;
+                        titleSpan.appendChild(statusBadge);
+                    }
+
+                    var dateSpan = document.createElement('span');
+                    dateSpan.className = 'date';
+                    dateSpan.textContent = post.date;
+
+                    titleRow.appendChild(titleSpan);
+                    titleRow.appendChild(dateSpan);
+                    li.appendChild(titleRow);
+
+                    // Add description if present
+                    if (post.description) {
+                        var descDiv = document.createElement('div');
+                        descDiv.className = 'post-description';
+                        descDiv.textContent = post.description;
+                        li.appendChild(descDiv);
+                    }
+
+                    list.appendChild(li);
+                });
+            })
+            .catch(function() {
+                document.getElementById('post-list').innerHTML =
+                    '<li><p style="color:#999;">No posts yet.</p></li>';
+            });
+    </script>
 </body>
 </html>

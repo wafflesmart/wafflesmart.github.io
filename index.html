@@ -16,6 +16,9 @@
                 <li><a href="/intake/">Intake</a></li>
                 <li><a href="/about/">About</a></li>
             </ul>
+            <div class="sidebar-footer">
+                <span class="last-updated">Updated Feb 2026</span>
+            </div>
         </aside>
 
         <main class="main">
@@ -24,19 +27,8 @@
                 <a href="/output/"><h2>Output</h2></a>
                 <a href="/output/">→</a>
             </div>
-            <ul class="post-list">
-                <li>
-                    <a href="/output/under-construction-02/">Under Construction 02</a>
-                    <span class="date">Jan 2026</span>
-                </li>
-                <li>
-                    <a href="/output/under-construction/">Under Construction</a>
-                    <span class="date">Jan 2026</span>
-                </li>
-                <li>
-                    <a href="/output/thinking-historically-01/">Thinking Historically 01.</a>
-                    <span class="date">Sep 2025</span>
-                </li>
+            <ul class="post-list" id="output-preview">
+                <li><p style="color:#999;">Loading...</p></li>
             </ul>
 
             <!-- Captures Section -->
@@ -60,6 +52,39 @@
     </div>
 
     <script>
+        // Load Output
+        fetch('/output/posts.json')
+            .then(function(response) { return response.json(); })
+            .then(function(posts) {
+                var list = document.getElementById('output-preview');
+                list.innerHTML = '';
+
+                if (posts.length === 0) {
+                    list.innerHTML = '<li><p style="color:#999;">No posts yet.</p></li>';
+                    return;
+                }
+
+                posts.forEach(function(post) {
+                    var li = document.createElement('li');
+
+                    var link = document.createElement('a');
+                    link.href = '/output/' + post.slug + '/';
+                    link.textContent = post.title;
+
+                    var date = document.createElement('span');
+                    date.className = 'date';
+                    date.textContent = post.date;
+
+                    li.appendChild(link);
+                    li.appendChild(date);
+                    list.appendChild(li);
+                });
+            })
+            .catch(function() {
+                document.getElementById('output-preview').innerHTML =
+                    '<li><p style="color:#999;">No posts yet.</p></li>';
+            });
+
         // Load Captures
         fetch('/captures/photos/photos.json')
             .then(function(response) { return response.json(); })

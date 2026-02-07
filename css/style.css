@@ -1,5 +1,16 @@
 /* Minimal site styles - inspired by macwright.com */
 
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600&display=swap');
+
+:root {
+    --accent: #5a7a8a;
+    --bg: #faf9f7;
+    --text: #1a1a1a;
+    --text-secondary: #666;
+    --text-muted: #999;
+    --border: #eee;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -13,8 +24,21 @@ html {
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
     line-height: 1.6;
-    color: #1a1a1a;
-    background: #fff;
+    color: var(--text);
+    background: var(--bg);
+}
+
+/* Prose typography - for reading content */
+.prose, .post-content, article, .about-content, .card-comment {
+    font-family: 'Source Serif 4', Georgia, serif;
+}
+
+.prose, .post-content {
+    line-height: 1.7;
+}
+
+.post-content {
+    max-width: 680px;
 }
 
 /* Layout */
@@ -36,14 +60,14 @@ body {
 .sidebar-logo {
     font-size: 1.25rem;
     font-weight: 700;
-    color: #1a1a1a;
+    color: var(--text);
     text-decoration: none;
     display: block;
     margin-bottom: 2rem;
 }
 
 .sidebar-logo:hover {
-    color: #666;
+    color: var(--text-secondary);
 }
 
 .sidebar-nav {
@@ -55,17 +79,30 @@ body {
 }
 
 .sidebar-nav a {
-    color: #666;
+    color: var(--text-secondary);
     text-decoration: none;
     font-size: 0.95rem;
 }
 
 .sidebar-nav a:hover {
-    color: #1a1a1a;
+    color: var(--text);
 }
 
 .sidebar-nav a.active {
-    color: #1a1a1a;
+    color: var(--text);
+}
+
+/* Sidebar footer */
+.sidebar-footer {
+    position: absolute;
+    bottom: 2rem;
+    left: 1.5rem;
+}
+
+.last-updated {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
 }
 
 /* Main content */
@@ -87,7 +124,7 @@ h2 {
     font-size: 1rem;
     font-weight: 600;
     margin-bottom: 1rem;
-    color: #1a1a1a;
+    color: var(--text);
 }
 
 p {
@@ -96,14 +133,14 @@ p {
 }
 
 a {
-    color: #1a1a1a;
+    color: var(--text);
     text-decoration: underline;
-    text-decoration-color: #ccc;
+    text-decoration-color: var(--accent);
     text-underline-offset: 2px;
 }
 
 a:hover {
-    text-decoration-color: #1a1a1a;
+    text-decoration-color: var(--text);
 }
 
 /* Section headers with arrow */
@@ -125,21 +162,21 @@ a:hover {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: #666;
+    color: var(--text-secondary);
 }
 
 .section-header a {
-    color: #999;
+    color: var(--text-muted);
     text-decoration: none;
     font-size: 0.85rem;
 }
 
 .section-header a:hover {
-    color: #1a1a1a;
+    color: var(--text);
 }
 
 .section-header a:hover h2 {
-    color: #1a1a1a;
+    color: var(--text);
 }
 
 /* Intake thumbnails (homepage) */
@@ -174,7 +211,7 @@ a:hover {
 }
 
 .post-list a {
-    color: #1a1a1a;
+    color: var(--text);
     text-decoration: none;
 }
 
@@ -183,7 +220,7 @@ a:hover {
 }
 
 .post-list .date {
-    color: #999;
+    color: var(--text-muted);
     font-size: 0.9rem;
     white-space: nowrap;
 }
@@ -240,6 +277,12 @@ a:hover {
     height: auto;
     display: block;
     cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.capture-item img:hover {
+    transform: scale(1.02);
+    opacity: 0.9;
 }
 
 /* Capture sections */
@@ -252,7 +295,7 @@ a:hover {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: #666;
+    color: var(--text-secondary);
     margin-bottom: 1rem;
 }
 
@@ -339,7 +382,7 @@ a:hover {
 }
 
 .intake-list a {
-    color: #1a1a1a;
+    color: var(--text);
     text-decoration: none;
 }
 
@@ -348,7 +391,7 @@ a:hover {
 }
 
 .intake-list .source {
-    color: #999;
+    color: var(--text-muted);
     font-size: 0.9rem;
 }
 
@@ -366,7 +409,7 @@ a:hover {
 .contact-section {
     margin-top: 2.5rem;
     padding-top: 1.5rem;
-    border-top: 1px solid #eee;
+    border-top: 1px solid var(--border);
 }
 
 .contact-section h2 {
@@ -374,7 +417,7 @@ a:hover {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: #666;
+    color: var(--text-secondary);
     margin-bottom: 0.75rem;
 }
 
@@ -397,7 +440,7 @@ article ul ul {
     display: block;
     text-align: center;
     font-size: 0.75rem;
-    color: #999;
+    color: var(--text-muted);
     margin-top: 0.25rem;
     font-family: 'SF Mono', Monaco, 'Cascadia Mono', 'Segoe UI Mono', monospace;
 }
@@ -414,6 +457,20 @@ article ul ul {
     opacity: 0.7;
 }
 
+/* Lightbox caption */
+.lightbox-caption {
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 0.8rem;
+    opacity: 0.6;
+    text-align: center;
+    max-width: 400px;
+    font-family: 'Source Serif 4', Georgia, serif;
+}
+
 /* Intake filters */
 .intake-filters {
     display: flex;
@@ -424,9 +481,9 @@ article ul ul {
 
 .filter-btn {
     padding: 0.4rem 0.8rem;
-    border: 1px solid #ddd;
-    background: #fff;
-    color: #666;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text-secondary);
     font-size: 0.85rem;
     cursor: pointer;
     border-radius: 3px;
@@ -434,14 +491,14 @@ article ul ul {
 }
 
 .filter-btn:hover {
-    border-color: #999;
-    color: #1a1a1a;
+    border-color: var(--text-muted);
+    color: var(--text);
 }
 
 .filter-btn.active {
-    background: #1a1a1a;
-    border-color: #1a1a1a;
-    color: #fff;
+    background: var(--text);
+    border-color: var(--text);
+    color: var(--bg);
 }
 
 /* Intake grid */
@@ -505,6 +562,21 @@ article ul ul {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    position: relative;
+}
+
+/* Status badge for intake cards */
+.status-badge {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.15rem 0.4rem;
+    border-radius: 2px;
+    background: rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.7);
 }
 
 .no-cover {
@@ -516,7 +588,7 @@ article ul ul {
     padding: 1rem;
     text-align: center;
     font-size: 0.85rem;
-    color: #666;
+    color: var(--text-secondary);
 }
 
 /* Text card (for videos/speeches) */
@@ -552,7 +624,7 @@ article ul ul {
 
 .card-creator {
     font-size: 0.75rem;
-    color: #999;
+    color: var(--text-muted);
     margin-bottom: 0.5rem;
 }
 
@@ -562,7 +634,7 @@ article ul ul {
 
 .card-comment {
     font-size: 0.75rem;
-    color: #666;
+    color: var(--text-secondary);
     line-height: 1.4;
     margin-top: auto;
 }
@@ -594,10 +666,10 @@ article ul ul {
 }
 
 .post-content blockquote {
-    border-left: 3px solid #ddd;
+    border-left: 3px solid var(--border);
     padding-left: 1rem;
     margin: 1rem 0;
-    color: #666;
+    color: var(--text-secondary);
 }
 
 .post-content code {
@@ -618,6 +690,43 @@ article ul ul {
 .post-content pre code {
     background: none;
     padding: 0;
+}
+
+/* Post status indicators */
+.post-status {
+    display: inline-block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.1rem 0.4rem;
+    border-radius: 2px;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+}
+
+.post-status.draft { background: #e8e8e8; color: #888; }
+.post-status.in-progress { background: #fff3cd; color: #856404; }
+.post-status.complete { background: #d4edda; color: #155724; }
+
+/* Post description */
+.post-description {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 0.15rem;
+    font-family: 'Source Serif 4', Georgia, serif;
+}
+
+/* Post list item container for description */
+.post-list li {
+    flex-wrap: wrap;
+}
+
+.post-list .post-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    width: 100%;
+    gap: 1rem;
 }
 
 /* Responsive */
@@ -647,6 +756,10 @@ article ul ul {
 
     .sidebar-nav li {
         margin-bottom: 0;
+    }
+
+    .sidebar-footer {
+        display: none;
     }
 
     .main {

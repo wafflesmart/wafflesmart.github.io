@@ -4,49 +4,63 @@
     "title": "The Lost Peace: Leadership in a Time of Horror and Hope, 1945-1953",
     "creator": "Robert Dallek",
     "cover": "lost-peace.jpg",
-    "comment": ""
+    "comment": "",
+    "status": "finished",
+    "tags": []
   },
   {
     "type": "music",
     "title": "Southernplayalisticadillacmuzik",
     "creator": "OutKast",
     "cover": "outkast-southernplayalisticadillacmuzik.jpg",
-    "comment": ""
+    "comment": "",
+    "status": "finished",
+    "tags": []
   },
   {
     "type": "book",
     "title": "Mere Christianity",
     "creator": "C.S. Lewis",
     "cover": "mere-christianity.jpg",
-    "comment": ""
+    "comment": "",
+    "status": "finished",
+    "tags": []
   },
   {
     "type": "book",
     "title": "Age of Revolutions: Progress and Backlash from 1600 to the Present",
     "creator": "Fareed Zakaria",
     "cover": "age-of-revolutions.jpg",
-    "comment": ""
+    "comment": "",
+    "status": "finished",
+    "tags": []
   },
   {
     "type": "book",
     "title": "Thinking Historically: A Guide to Statecraft and Strategy",
     "creator": "Francis J. Gavin",
     "cover": "thinking-historically.jpg",
-    "comment": ""
+    "comment": "",
+    "status": "finished",
+    "tags": []
   },
   {
     "type": "music",
     "title": "A Sailor's Guide to Earth",
     "creator": "Sturgill Simpson",
     "cover": "sailors-guide-to-earth.jpg",
-    "comment": ""
+    "comment": "",
+    "status": "finished",
+    "tags": []
   },
   {
     "type": "movie",
     "title": "2001: A Space Odyssey",
     "creator": "",
     "cover": "2001-space-odyssey.jpg",
-    "comment": ""
+    "comment": "",
+    "status": "finished",
+    "tags": []
   },
   {
     "type": "speech",
@@ -54,6 +68,8 @@
     "creator": "Abraham Lincoln",
     "cover": "lincoln-lyceum-address.jpg",
     "link": "https://www.abrahamlincolnonline.org/lincoln/speeches/lyceum.htm",
-    "comment": ""
+    "comment": "",
+    "status": "finished",
+    "tags": []
   }
 ]
