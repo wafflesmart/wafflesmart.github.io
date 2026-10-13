@@ -84,7 +84,11 @@
             tagsData = results[0];
             intakeItems = results[1];
             postsData = results[2];
-            photosData = results[3];
+            photosData = results[3].filter(function(photo) {
+                return photo.status !== 'draft';
+            }).sort(function(a, b) {
+                return String(a.date).localeCompare(String(b.date));
+            });
 
             renderTags();
 

@@ -5,7 +5,17 @@
     "date": "2025-11-25",
     "location": "Berlin",
     "caption": "",
-    "tags": ["berlin"]
+    "tags": [
+      "berlin"
+    ],
+    "thumb": "thumbs/file-00001.jpg",
+    "display": "display/file-00001.jpg",
+    "width": 1325,
+    "height": 2000,
+    "thumbWidth": 397,
+    "thumbHeight": 600,
+    "sourceSha256": "19b537ba63625368b97c5a5b7b8382259a476cc2a31eb341dde72d6f7c2103c8",
+    "status": "published"
   },
   {
     "file": "File 00002.jpeg",
@@ -13,7 +23,17 @@
     "date": "2025-11-25",
     "location": "Berlin",
     "caption": "",
-    "tags": ["berlin"]
+    "tags": [
+      "berlin"
+    ],
+    "thumb": "thumbs/file-00002.jpg",
+    "display": "display/file-00002.jpg",
+    "width": 2000,
+    "height": 1325,
+    "thumbWidth": 600,
+    "thumbHeight": 397,
+    "sourceSha256": "e3025371719718a510355fb065a5a9dcd02d285222f46f687bd15937018528d6",
+    "status": "published"
   },
   {
     "file": "File 00003.jpeg",
@@ -21,7 +41,17 @@
     "date": "2025-11-25",
     "location": "Berlin",
     "caption": "",
-    "tags": ["berlin"]
+    "tags": [
+      "berlin"
+    ],
+    "thumb": "thumbs/file-00003.jpg",
+    "display": "display/file-00003.jpg",
+    "width": 1325,
+    "height": 2000,
+    "thumbWidth": 397,
+    "thumbHeight": 600,
+    "sourceSha256": "e008d646519b0b24fbcb99e25a5b394c030ee3e684f1c7fb42eeec84868d8d1b",
+    "status": "published"
   },
   {
     "file": "File 00004.jpeg",
@@ -29,7 +59,17 @@
     "date": "2025-11-25",
     "location": "Berlin",
     "caption": "",
-    "tags": ["berlin"]
+    "tags": [
+      "berlin"
+    ],
+    "thumb": "thumbs/file-00004.jpg",
+    "display": "display/file-00004.jpg",
+    "width": 1325,
+    "height": 2000,
+    "thumbWidth": 397,
+    "thumbHeight": 600,
+    "sourceSha256": "2e5b51828e54e0775d59888c38ac235b72ba1d9fc5dd9af2619c403ad0a02f31",
+    "status": "published"
   },
   {
     "file": "File 00005.jpeg",
@@ -37,7 +77,17 @@
     "date": "2025-11-25",
     "location": "Berlin",
     "caption": "",
-    "tags": ["berlin"]
+    "tags": [
+      "berlin"
+    ],
+    "thumb": "thumbs/file-00005.jpg",
+    "display": "display/file-00005.jpg",
+    "width": 1325,
+    "height": 2000,
+    "thumbWidth": 397,
+    "thumbHeight": 600,
+    "sourceSha256": "43c980184e1e5456383936451b7ab62ab640e7b36ede40cffcb4832acbf9b463",
+    "status": "published"
   },
   {
     "file": "File 00006.jpeg",
@@ -45,7 +95,17 @@
     "date": "2025-11-25",
     "location": "Paris",
     "caption": "",
-    "tags": ["paris"]
+    "tags": [
+      "paris"
+    ],
+    "thumb": "thumbs/file-00006.jpg",
+    "display": "display/file-00006.jpg",
+    "width": 2000,
+    "height": 1325,
+    "thumbWidth": 600,
+    "thumbHeight": 397,
+    "sourceSha256": "d5e53bd6a4eac2a2a3107b771c3f803bb8c5f62adba5cba96b6be1d3ed308ab3",
+    "status": "published"
   },
   {
     "file": "File 00007.jpeg",
@@ -53,7 +113,17 @@
     "date": "2025-11-25",
     "location": "Paris",
     "caption": "",
-    "tags": ["paris"]
+    "tags": [
+      "paris"
+    ],
+    "thumb": "thumbs/file-00007.jpg",
+    "display": "display/file-00007.jpg",
+    "width": 2000,
+    "height": 1325,
+    "thumbWidth": 600,
+    "thumbHeight": 397,
+    "sourceSha256": "67f0efc1e3984cfd6d138f4896b1d95fca57f3d166be74eb945b1e1175619048",
+    "status": "published"
   },
   {
     "file": "File 00008.jpeg",
@@ -61,7 +131,17 @@
     "date": "2025-11-25",
     "location": "Paris",
     "caption": "",
-    "tags": ["paris"]
+    "tags": [
+      "paris"
+    ],
+    "thumb": "thumbs/file-00008.jpg",
+    "display": "display/file-00008.jpg",
+    "width": 2000,
+    "height": 1325,
+    "thumbWidth": 600,
+    "thumbHeight": 397,
+    "sourceSha256": "41e8c4da0ae3abe1fe594c60091e218154eb926df7a32fe34ec3d6ed8069b6fa",
+    "status": "published"
   },
   {
     "file": "File 00009.jpeg",
@@ -69,7 +149,17 @@
     "date": "2025-11-25",
     "location": "Paris",
     "caption": "",
-    "tags": ["paris"]
+    "tags": [
+      "paris"
+    ],
+    "thumb": "thumbs/file-00009.jpg",
+    "display": "display/file-00009.jpg",
+    "width": 2000,
+    "height": 1325,
+    "thumbWidth": 600,
+    "thumbHeight": 397,
+    "sourceSha256": "8d085715915a1ab3a5ee724a924a112b59d71fff724d0ad40bfaecca5504d97f",
+    "status": "published"
   },
   {
     "file": "File 00010.jpeg",
@@ -77,6 +167,16 @@
     "date": "2025-11-25",
     "location": "Paris",
     "caption": "",
-    "tags": ["paris"]
+    "tags": [
+      "paris"
+    ],
+    "thumb": "thumbs/file-00010.jpg",
+    "display": "display/file-00010.jpg",
+    "width": 1325,
+    "height": 2000,
+    "thumbWidth": 397,
+    "thumbHeight": 600,
+    "sourceSha256": "4aced3d86c24f7e9391880114cae02e3ef732e4c217bb2dddf228d2aa106093e",
+    "status": "published"
   }
 ]
