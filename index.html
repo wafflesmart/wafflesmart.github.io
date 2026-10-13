@@ -53,6 +53,23 @@
     </div>
 
     <script>
+        function photoUrl(relativePath) {
+            return '/photos/' + String(relativePath).split('/').map(function(part) {
+                return encodeURIComponent(part);
+            }).join('/');
+        }
+
+        function placeDateCaption(photo) {
+            var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            var parts = [];
+            if (photo.location) parts.push(photo.location);
+            if (photo.date && photo.date.length >= 7) {
+                var month = parseInt(photo.date.slice(5, 7), 10);
+                if (month >= 1 && month <= 12) parts.push(months[month - 1] + ' ' + photo.date.slice(0, 4));
+            }
+            return parts.join(', ');
+        }
+
         // Load Output
         fetch('/output/posts.json')
             .then(function(response) { return response.json(); })
@@ -90,8 +107,9 @@
         fetch('/captures/photos/photos.json')
             .then(function(response) { return response.json(); })
             .then(function(photos) {
+                photos = photos.filter(function(photo) { return photo.status !== 'draft'; });
                 photos.sort(function(a, b) {
-                    return new Date(a.date) - new Date(b.date);
+                    return String(a.date).localeCompare(String(b.date));
                 });
 
                 photos.forEach(function(photo, index) {
@@ -109,9 +127,14 @@
                     var container = document.createElement('div');
                     container.className = 'capture-preview-item';
 
+                    if (!photo.thumb) return;
                     var img = document.createElement('img');
-                    img.src = '/photos/' + encodeURIComponent(photo.file);
-                    img.alt = 'Capture #' + photo.number;
+                    img.src = photoUrl(photo.thumb);
+                    img.alt = placeDateCaption(photo) || ('Capture #' + photo.number);
+                    if (photo.thumbWidth) img.width = photo.thumbWidth;
+                    if (photo.thumbHeight) img.height = photo.thumbHeight;
+                    img.loading = 'lazy';
+                    img.decoding = 'async';
 
                     var num = document.createElement('span');
                     num.className = 'capture-number';

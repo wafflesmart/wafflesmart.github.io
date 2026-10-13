@@ -24,6 +24,7 @@
 
         <main class="main">
             <h1>Captures</h1>
+            <p class="captures-rights">All photos by MKE. [License TBD]</p>
 
             <div class="intake-filters" id="location-filters">
                 <!-- Populated by JS -->
@@ -57,12 +58,35 @@
             "11.25 | BER-PAR": "November 2025 — Berlin & Paris"
         };
 
+        function photoUrl(relativePath) {
+            return '/photos/' + String(relativePath).split('/').map(function(part) {
+                return encodeURIComponent(part);
+            }).join('/');
+        }
+
+        function placeDateCaption(photo) {
+            var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            var parts = [];
+            if (photo.location) parts.push(photo.location);
+            if (photo.date && photo.date.length >= 7) {
+                var month = parseInt(photo.date.slice(5, 7), 10);
+                if (month >= 1 && month <= 12) parts.push(months[month - 1] + ' ' + photo.date.slice(0, 4));
+            }
+            var line = parts.join(', ');
+            if (photo.caption && String(photo.caption).trim()) {
+                var extra = String(photo.caption).trim();
+                return line ? (line + ' — ' + extra) : extra;
+            }
+            return line;
+        }
+
         fetch('/captures/photos/photos.json')
             .then(function(response) { return response.json(); })
             .then(function(photos) {
+                photos = photos.filter(function(photo) { return photo.status !== 'draft'; });
                 // Sort by date (oldest first for numbering)
                 photos.sort(function(a, b) {
-                    return new Date(a.date) - new Date(b.date);
+                    return String(a.date).localeCompare(String(b.date));
                 });
 
                 // Assign global numbers (oldest = 001)
@@ -167,9 +191,14 @@
                     var item = document.createElement('div');
                     item.className = 'capture-item';
 
+                    if (!photo.thumb) return;
                     var img = document.createElement('img');
-                    img.src = '/photos/' + encodeURIComponent(photo.file);
-                    img.alt = 'Capture #' + photo.number;
+                    img.src = photoUrl(photo.thumb);
+                    img.alt = placeDateCaption(photo) || ('Capture #' + photo.number);
+                    if (photo.thumbWidth) img.width = photo.thumbWidth;
+                    if (photo.thumbHeight) img.height = photo.thumbHeight;
+                    img.loading = 'lazy';
+                    img.decoding = 'async';
                     img.dataset.number = photo.number;
                     img.dataset.globalIndex = allPhotos.indexOf(photo);
 
@@ -186,72 +215,68 @@
                 container.appendChild(sectionDiv);
             });
 
-            initLightbox();
         }
 
-        function initLightbox() {
-            var lightbox = document.getElementById('lightbox');
-            var lightboxImg = document.getElementById('lightbox-img');
-            var lightboxNumber = document.getElementById('lightbox-number');
-            var lightboxCaption = document.getElementById('lightbox-caption');
-            var images = document.querySelectorAll('.capture-item img');
+        var lightbox = document.getElementById('lightbox');
+        var lightboxImg = document.getElementById('lightbox-img');
+        var lightboxNumber = document.getElementById('lightbox-number');
+        var lightboxCaption = document.getElementById('lightbox-caption');
 
-            images.forEach(function(img) {
-                img.addEventListener('click', function() {
-                    currentIndex = parseInt(img.dataset.globalIndex);
-                    showPhoto(currentIndex);
-                    lightbox.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                });
-            });
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
 
-            lightbox.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
-            lightbox.addEventListener('click', function(e) {
-                if (e.target === lightbox) closeLightbox();
-            });
+        function showPhoto(index) {
+            var photo = allPhotos[index];
+            lightboxImg.src = photoUrl(photo.display || photo.thumb);
+            lightboxImg.alt = placeDateCaption(photo) || ('Capture #' + photo.number);
+            if (photo.width) lightboxImg.width = photo.width;
+            if (photo.height) lightboxImg.height = photo.height;
+            lightboxNumber.textContent = photo.number;
+            lightboxCaption.textContent = placeDateCaption(photo);
+        }
 
-            function closeLightbox() {
-                lightbox.classList.remove('active');
-                document.body.style.overflow = '';
-            }
+        document.getElementById('captures-container').addEventListener('click', function(e) {
+            var img = e.target.closest ? e.target.closest('.capture-item img') : null;
+            if (!img) return;
+            currentIndex = parseInt(img.dataset.globalIndex, 10);
+            showPhoto(currentIndex);
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
 
-            function showPhoto(index) {
-                var photo = allPhotos[index];
-                lightboxImg.src = '/photos/' + encodeURIComponent(photo.file);
-                lightboxNumber.textContent = photo.number;
+        lightbox.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', function(e) {
+            if (e.target === lightbox) closeLightbox();
+        });
 
-                // Build caption text
-                var captionParts = [];
-                if (photo.location) captionParts.push(photo.location);
-                if (photo.caption) captionParts.push(photo.caption);
-                lightboxCaption.textContent = captionParts.join(' — ');
-            }
+        lightbox.querySelector('.lightbox-prev').addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (!allPhotos.length) return;
+            currentIndex = (currentIndex - 1 + allPhotos.length) % allPhotos.length;
+            showPhoto(currentIndex);
+        });
 
-            lightbox.querySelector('.lightbox-prev').addEventListener('click', function(e) {
-                e.stopPropagation();
+        lightbox.querySelector('.lightbox-next').addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (!allPhotos.length) return;
+            currentIndex = (currentIndex + 1) % allPhotos.length;
+            showPhoto(currentIndex);
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (!lightbox.classList.contains('active') || !allPhotos.length) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') {
                 currentIndex = (currentIndex - 1 + allPhotos.length) % allPhotos.length;
                 showPhoto(currentIndex);
-            });
-
-            lightbox.querySelector('.lightbox-next').addEventListener('click', function(e) {
-                e.stopPropagation();
+            }
+            if (e.key === 'ArrowRight') {
                 currentIndex = (currentIndex + 1) % allPhotos.length;
                 showPhoto(currentIndex);
-            });
-
-            document.addEventListener('keydown', function(e) {
-                if (!lightbox.classList.contains('active')) return;
-                if (e.key === 'Escape') closeLightbox();
-                if (e.key === 'ArrowLeft') {
-                    currentIndex = (currentIndex - 1 + allPhotos.length) % allPhotos.length;
-                    showPhoto(currentIndex);
-                }
-                if (e.key === 'ArrowRight') {
-                    currentIndex = (currentIndex + 1) % allPhotos.length;
-                    showPhoto(currentIndex);
-                }
-            });
-        }
+            }
+        });
     </script>
 </body>
 </html>

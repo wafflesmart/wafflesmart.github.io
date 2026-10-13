@@ -1,0 +1,10 @@
+node_modules/
+scripts/node_modules/
+
+# Phone originals and EXIF sidecars. These can contain GPS.
+# GitHub Pages and Vercel publish tracked files, so this ignore list
+# is what keeps coordinates off the site.
+photo-intake/originals/*
+!photo-intake/originals/.gitkeep
+photo-intake/private/*
+!photo-intake/private/.gitkeep

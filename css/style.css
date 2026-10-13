@@ -336,7 +336,7 @@ a:hover {
 
 .lightbox-content img {
     max-width: 90vw;
-    max-height: 90vh;
+    max-height: 82vh;
     object-fit: contain;
 }
 
@@ -471,15 +471,23 @@ article ul ul {
 /* Lightbox caption */
 .lightbox-caption {
     position: absolute;
-    bottom: -50px;
+    top: calc(100% + 1.7rem);
     left: 50%;
     transform: translateX(-50%);
     color: #fff;
     font-size: 0.8rem;
     opacity: 0.6;
     text-align: center;
-    max-width: 400px;
+    width: max-content;
+    max-width: min(28rem, 80vw);
     font-family: 'Source Serif 4', Georgia, serif;
+}
+
+.captures-rights {
+    margin-top: -0.75rem;
+    margin-bottom: 1.25rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
 }
 
 /* Intake filters */

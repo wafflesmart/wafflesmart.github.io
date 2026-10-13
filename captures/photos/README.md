@@ -1,30 +1,7 @@
-# Adding New Photos
+# Captures data
 
-To add photos to Captures:
+`photos.json` is the catalog the site renders. Each published entry points at a thumbnail and a display JPEG under `/photos/`.
 
-1. **Upload your photo** to the `/photos/` folder (the main photos folder, not this one)
+To add a photo, use the intake script instead of editing this file by hand. See "Adding photos" in the repository README. Draft entries (`"status": "draft"`) stay out of the grid until you approve them.
 
-2. **Update photos.json** - Add an entry for your photo:
-   ```json
-   {
-     "file": "my-photo.jpeg",
-     "section": "travel",
-     "date": "2026-01-25"
-   }
-   ```
-
-   - `file`: The exact filename of your photo
-   - `section`: One of: `travel`, `street`, `portraits`, or `unsorted`
-   - `date`: When the photo was taken (YYYY-MM-DD format)
-
-   Photos are numbered globally by date (oldest = 001).
-
-## Sections
-
-Available sections:
-- `travel` - Travel photography
-- `street` - Street photography
-- `portraits` - Portrait photography
-- `unsorted` - Uncategorized photos
-
-To create a new section, just use a new section name in the JSON.
+Do not store GPS, camera EXIF, or a path to an original in this file. The viewer builds the line "Place, Month Year" from `location` and `date`. A `caption` is optional and is shown after that line.
